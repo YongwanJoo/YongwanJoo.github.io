@@ -105,16 +105,16 @@
       <h2>주요 기능</h2>
       <div class="card-list">
         <div class="card-item">
-          <strong>Istio Service Mesh 트래픽 관리</strong>
-          <p><b>Istio Gateway</b>를 통해 모든 입출금 트래픽을 단일 진입점으로 관리하고, <b>VirtualService</b>를 통해 서비스 간 트래픽 흐름을 정밀하게 제어</p>
+          <strong>Istio & Service Mesh 관측성 (Kiali/Zipkin)</strong>
+          <p><b>Kiali</b>를 통한 실시간 트래픽 가시화 및 서비스 의존성 관리, <b>Zipkin</b>을 활용한 분산 추적(Distributed Tracing)으로 마이크로서비스 간 병목 지점 및 지연 시간 정밀 분석</p>
         </div>
         <div class="card-item">
           <strong>JWT 토큰 전파 (Propagation)</strong>
           <p><b>NATS 메시징 페이로드</b>에 사용자 식별 정보(UserId)를 포함하여 전달함으로써, 비동기 서비스 전반에 걸쳐 인증 문맥을 명시적으로 공유</p>
         </div>
         <div class="card-item">
-          <strong>장애 격리 및 회복 탄력성</strong>
-          <p><b>NATS JetStream</b>의 메시지 큐 구조를 활용한 서비스 간 결합도 제거 및 비동기 처리를 통한 시스템 장애 격리</p>
+          <strong>비동기 결함 내성 및 SAGA 패턴</strong>
+          <p><b>NATS JetStream</b>의 메시지 보존(Persistence)을 통한 시공간 결합도 해소로 장애 전이를 원천 차단하고, <b>SAGA 패턴</b> 기반 보상 트랜잭션으로 비동기 데이터 정합성 보장</p>
         </div>
         <div class="card-item">
           <strong>DB 격리 (Logical Separation)</strong>
@@ -169,6 +169,10 @@
         <div class="card-item ts-item">
           <strong>SAGA Pattern - Balance Not Updating</strong>
           <p>트랜잭션 완료 후 잔액 반영 로직이 누락되어 0원으로 유지되던 문제를 TransactionResultSubscriber 데이터 정합성 로직 추가로 해결</p>
+        </div>
+        <div class="card-item ts-item">
+          <strong>분산 추적 Context 유실 (Zipkin)</strong>
+          <p>비동기 메시징 전파 시 Trace ID가 유실되어 서비스 간 추적이 끊기던 문제를 <b>NATS 메시지 페이로드에 Trace Context를 직접 주입(Inject) 및 추출(Extract)</b>하는 방식으로 해결</p>
         </div>
         <div class="card-item ts-item">
           <strong>마이크로서비스 간 인증 정보 유실</strong>
