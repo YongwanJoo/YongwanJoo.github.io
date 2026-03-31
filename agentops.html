@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgentOps 프로젝트 상세 — 주용완</title>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    :root {
+      --bg: #f8fafc; --surface: #ffffff; --border: #e2e8f0; --accent: #2563eb;
+      --text: #0f172a; --text-muted: #64748b; --text-subtle: #475569;
+    }
+    
+    /* 폰트 통일 및 기본 설정 */
+    body { 
+      background: var(--bg); 
+      color: var(--text); 
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif; 
+      line-height: 1.7; 
+      margin: 0; 
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 800px; margin: 0 auto; padding: 4rem 2rem; }
+    
+    /* 헤더 영역: 폰트 깨짐 방지를 위한 굵기 및 자간 조정 */
+    .project-header { margin-bottom: 4rem; }
+    .project-period { 
+      font-size: 0.9rem; 
+      color: var(--text-muted); 
+      letter-spacing: 0.05em; 
+      margin-bottom: 0.5rem; 
+      display: block;
+    }
+    .project-title { 
+      font-size: 2.5rem; 
+      font-weight: 700; 
+      margin: 0 0 1rem 0; 
+      color: var(--text); 
+      letter-spacing: -0.02em; /* 한글 타이틀 최적화 자간 */
+    }
+    .project-tagline { font-size: 1.1rem; color: var(--text-subtle); margin-bottom: 2rem; }
+
+    /* 메타 정보 그리드 */
+    .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+    .meta-item { padding: 1.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; }
+    .meta-label { font-size: 0.75rem; color: var(--accent); font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 0.4rem; }
+    .meta-value { font-weight: 500; font-size: 0.95rem; color: var(--text); }
+
+    /* 섹션 공통 */
+    section { margin-top: 4.5rem; }
+    h2 { font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    h2::before { content: ""; width: 4px; height: 1.2rem; background: var(--accent); border-radius: 2px; }
+    
+    /* 리스트 스타일 */
+    .card-list { display: flex; flex-direction: column; gap: 1rem; }
+    .card-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; }
+    .card-item strong { color: var(--text); display: block; margin-bottom: 0.5rem; font-size: 1.05rem; }
+    .card-item p { margin: 0; color: var(--text-subtle); font-size: 0.95rem; }
+    
+    /* 트러블슈팅 전용 스타일 */
+    .ts-item { border-left: 4px solid #ef4444; }
+    .ts-item strong { color: #ef4444; }
+
+    /* 태그 및 링크 */
+    .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
+    .tag { font-size: 0.8rem; padding: 0.25rem 0.7rem; background: #f1f5f9; color: var(--text-subtle); border-radius: 6px; border: 1px solid var(--border); }
+    .back-link { text-decoration: none; color: var(--accent); font-weight: 600; font-size: 0.9rem; transition: opacity 0.2s; }
+    .back-link:hover { opacity: 0.7; }
+    
+    .arch-placeholder { 
+      width: 100%; aspect-ratio: 16/9; background: #f1f5f9; border: 2px dashed #cbd5e1; 
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <a href="index.html" class="back-link">← 포트폴리오로 돌아가기</a>
+
+    <header class="project-header">
+      <span class="project-period">2026.03 — 2026.04</span>
+      <h1 class="project-title">AgentOps 플랫폼 구축</h1>
+      <p class="project-tagline">ArgoCD 및 Kubernetes 운영 장애를 자동 감지하고 분석하는 지능형 SRE 에이전트</p>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">Role</span>
+          <span class="meta-value">Solo project</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Tech Stack</span>
+          <div class="tags">
+            <span class="tag">Python</span><span class="tag">LangGraph</span><span class="tag">Qdrant</span>
+            <span class="tag">GKE</span><span class="tag">ArgoCD</span><span class="tag">Prometheus</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <h2>주요 기능</h2>
+      <div class="card-list">
+        <div class="card-item">
+          <strong>자동 장애 대응</strong>
+          <p><b>Prometheus</b> 지표 감지 시 에이전트가 자동 가동되어 분석 리포트를 <b>Discord</b>로 전송</p>
+        </div>
+        <div class="card-item">
+          <strong>자동 데이터 적재</strong>
+          <p><b>n8n 파이프라인</b>으로 매일 문서를 크롤링하여 비교 후 업데이트 존재 시, <b>지식 베이스(Qdrant)</b>를 최신화</p>
+        </div>
+        <div class="card-item">
+          <strong>CI Eval</strong>
+          <p><b>GitHub Actions CI</b>에서 답변 품질을 자동 평가하여 점수 미달 시 <b>배포를 차단</b></p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>시스템 아키텍처</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">GCP GKE 인프라와 GitOps, RAG 파이프라인이 통합된 구조</p>
+      <div class="arch-placeholder">
+        아키텍처 이미지를 여기에 삽입하세요 (16:9 권장)
+      </div>
+    </section>
+
+    <section>
+      <h2>트러블슈팅</h2>
+      <div class="card-list">
+        <div class="card-item ts-item">
+          <strong>CI 환경 내 Eval 점수 0점 발생</strong>
+          <p>CI 환경에 데이터가 없어 검색이 실패하던 문제를 Qdrant Sidecar 서비스 추가 및 평가 직전 데이터 자동 주입 스크립트 실행으로 해결</p>
+        </div>
+        <div class="card-item ts-item">
+          <strong>GKE 배포 후 답변 품질 저하</strong>
+          <p>초기 배포 시 Qdrant 데이터가 없는 문제를 해결하기 위해 포트 포워딩을 통한 Golden Set 기반 초기 지식 수동 시딩 수행</p>
+        </div>
+        <div class="card-item ts-item">
+          <strong>PrometheusRule이 대시보드에 나타나지 않는 문제</strong>
+          <p>Prometheus Operator의 ruleSelector 레이블 매칭 문제로 확인되어, PrometheusRule 메타데이터에 적절한 레이블을 추가하여 해결</p>
+        </div>
+        <div class="card-item ts-item">
+          <strong>ArgoCD Self-Heal로 인한 Secret 원복 문제</strong>
+          <p>수동 수정한 Secret이 Git 상태로 강제 동기화되는 문제를 GitHub Actions 파이프라인 배포 혹은 Auto-Sync 일시 비활성화로 해결</p>
+        </div>
+        <div class="card-item ts-item">
+          <strong>Langfuse 401 및 트레이싱 중단</strong>
+          <p>계정 리전 불일치 혹은 시크릿 업데이트 실패 문제를 정확한 리전 주소 확인 및 K8s Secret 재생성 후 롤아웃 재시작으로 해결</p>
+        </div>
+        <div class="card-item ts-item">
+          <strong>AlertManager Webhook 발송 지연</strong>
+          <p>단발성 이벤트 필터링을 위한 'for: 1m' 설계 의도를 파악하고, 테스트 시 관찰 시간을 충분히 확보하여 정상 작동 확인</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer style="text-align: center; padding: 4rem 0; color: var(--text-muted); font-size: 0.8rem;">
+    © 2026 주용완 — AgentOps Project Detail
+  </footer>
+
+</body>
+</html>
