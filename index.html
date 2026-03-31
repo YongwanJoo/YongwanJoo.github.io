@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>주용완 — Backend & Cloud Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
   <style>
     :root {
       --bg: #f8fafc;
       --surface: #ffffff;
       --border: #e2e8f0;
       --accent: #2563eb;
-      --accent-light: rgba(37,99,235,0.08);
-      --accent-border: rgba(37,99,235,0.18);
+      --accent-light: rgba(37, 99, 235, 0.08);
+      --accent-border: rgba(37, 99, 235, 0.18);
       --text: #0f172a;
       --text-muted: #64748b;
       --text-subtle: #475569;
     }
 
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       background: var(--bg);
@@ -37,9 +48,10 @@
 
     .cursor-glow {
       position: fixed;
-      width: 400px; height: 400px;
+      width: 400px;
+      height: 400px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(37,99,235,0.03) 0%, transparent 75%);
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.03) 0%, transparent 75%);
       pointer-events: none;
       transform: translate(-50%, -50%);
       transition: left 0.8s cubic-bezier(0.23, 1, 0.32, 1), top 0.8s cubic-bezier(0.23, 1, 0.32, 1);
@@ -57,7 +69,9 @@
     /* ── Nav ── */
     nav {
       position: fixed;
-      top: 0; left: 0; right: 0;
+      top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
       padding: 1.2rem 0;
       background: rgba(248, 250, 252, 0.92);
@@ -72,7 +86,12 @@
       align-items: center;
     }
 
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
     .nav-links a {
       font-size: 0.8rem;
       font-weight: 500;
@@ -81,14 +100,18 @@
       letter-spacing: -0.01em;
       transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--accent); }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
 
     /* ── Hero ── */
     .hero {
       min-height: auto;
       display: flex;
       align-items: center;
-      padding-top: 120px; /* Space for fixed nav */
+      padding-top: 120px;
+      /* Space for fixed nav */
       padding-bottom: 5rem;
     }
 
@@ -161,13 +184,33 @@
       transition: all 0.2s;
     }
 
-    .btn-primary { background: #dbeafe; color: #1e40af; font-weight: 500; }
-    .btn-primary:hover { background: #bfdbfe; transform: translateY(-2px); }
-    .btn-ghost { border: 1px solid var(--border); color: var(--text-subtle); }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-2px); }
+    .btn-primary {
+      background: #dbeafe;
+      color: #1e40af;
+      font-weight: 500;
+    }
+
+    .btn-primary:hover {
+      background: #bfdbfe;
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--text-subtle);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
 
     /* ── Sections ── */
-    section { padding: 5.5rem 0; border-top: 1px solid var(--border); }
+    section {
+      padding: 5.5rem 0;
+      border-top: 1px solid var(--border);
+    }
 
     .section-label {
       font-size: 0.8rem;
@@ -187,7 +230,11 @@
     }
 
     /* ── About ── */
-    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
 
     .about-text p {
       color: var(--text-subtle);
@@ -196,7 +243,11 @@
       margin-bottom: 1.2rem;
     }
 
-    .about-info { display: flex; flex-direction: column; gap: 0.6rem; }
+    .about-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
 
     .info-row {
       display: flex;
@@ -222,7 +273,11 @@
     }
 
     /* ── Activity Timeline ── */
-    .activity-list { display: flex; flex-direction: column; gap: 0; }
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
 
     .activity-item {
       display: grid;
@@ -232,7 +287,9 @@
       border-bottom: 1px solid var(--border);
     }
 
-    .activity-item:last-child { border-bottom: none; }
+    .activity-item:last-child {
+      border-bottom: none;
+    }
 
     .activity-date {
       font-size: 0.85rem;
@@ -261,9 +318,9 @@
     }
 
     .badge-done {
-      background: rgba(100,116,139,0.08);
+      background: rgba(100, 116, 139, 0.08);
       color: var(--text-muted);
-      border: 1px solid rgba(100,116,139,0.18);
+      border: 1px solid rgba(100, 116, 139, 0.18);
     }
 
     .activity-name {
@@ -274,7 +331,11 @@
     }
 
     /* ── Projects ── */
-    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
 
     .project-card {
       background: var(--surface);
@@ -291,17 +352,23 @@
     .project-card:hover {
       border-color: var(--accent);
       transform: translateY(-5px);
-      box-shadow: 0 12px 30px rgba(37,99,235,0.1);
+      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.1);
     }
 
-    .project-card.award { border-color: rgba(250,204,21,0.25); }
+    .project-card.award {
+      border-color: rgba(250, 204, 21, 0.25);
+    }
+
     .project-card.award:hover {
-      border-color: rgba(250,204,21,0.5);
-      box-shadow: 0 6px 24px rgba(250,204,21,0.08);
+      border-color: rgba(250, 204, 21, 0.5);
+      box-shadow: 0 6px 24px rgba(250, 204, 21, 0.08);
     }
 
     /* non-link project card */
-    div.project-card { cursor: default; }
+    div.project-card {
+      cursor: default;
+    }
+
     div.project-card:hover {
       border-color: var(--border);
       transform: none;
@@ -320,11 +387,16 @@
       overflow: hidden;
     }
 
-    .project-image-placeholder::after {
-      content: 'Architecture / Screenshot';
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-weight: 500;
+    .project-image-placeholder img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #f8fafc;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-card:hover .project-image-placeholder img {
+      transform: scale(1.05);
     }
 
     .project-content {
@@ -344,9 +416,9 @@
       font-weight: 700;
       padding: 0.25rem 0.6rem;
       border-radius: 4px;
-      background: rgba(250,204,21,0.1);
+      background: rgba(250, 204, 21, 0.1);
       color: #b45309;
-      border: 1px solid rgba(250,204,21,0.3);
+      border: 1px solid rgba(250, 204, 21, 0.3);
       letter-spacing: -0.01em;
     }
 
@@ -379,7 +451,12 @@
       font-weight: 600;
     }
 
-    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.9rem; }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.9rem;
+    }
 
     .tag {
       font-size: 0.75rem;
@@ -402,7 +479,10 @@
       opacity: 0.75;
       transition: opacity 0.2s;
     }
-    .project-link:hover { opacity: 1; }
+
+    .project-link:hover {
+      opacity: 1;
+    }
 
     .status-badge {
       font-family: 'DM Mono', monospace;
@@ -417,7 +497,9 @@
     }
 
     /* ── Projects More Toggle ── */
-    .projects-more-wrap { margin-top: 1.2rem; }
+    .projects-more-wrap {
+      margin-top: 1.2rem;
+    }
 
     .projects-more-grid {
       display: grid;
@@ -471,7 +553,11 @@
     }
 
     /* ── Skills ── */
-    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.1rem; }
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 1.1rem;
+    }
 
     .skill-group {
       background: var(--surface);
@@ -489,7 +575,11 @@
       margin-bottom: 1rem;
     }
 
-    .skill-list { display: flex; flex-direction: column; gap: 0.55rem; }
+    .skill-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
 
     .skill-item {
       display: flex;
@@ -501,7 +591,8 @@
     }
 
     .skill-dot {
-      width: 5px; height: 5px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       background: var(--accent);
       flex-shrink: 0;
@@ -509,7 +600,11 @@
     }
 
     /* ── Papers ── */
-    .paper-list { display: flex; flex-direction: column; gap: 1rem; }
+    .paper-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
 
     .paper-item {
       padding: 1.4rem 1.6rem;
@@ -559,8 +654,15 @@
 
     /* ── Animations ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .reveal {
@@ -569,18 +671,37 @@
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
 
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* ── Responsive ── */
     @media (max-width: 680px) {
-      .nav-links { display: none; }
-      .about-grid { grid-template-columns: 1fr; }
-      .projects-grid { grid-template-columns: 1fr; }
-      .projects-more-grid { grid-template-columns: 1fr; }
-      .activity-item { grid-template-columns: 1fr; gap: 0.4rem; }
+      .nav-links {
+        display: none;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .projects-more-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .activity-item {
+        grid-template-columns: 1fr;
+        gap: 0.4rem;
+      }
     }
   </style>
 </head>
+
 <body>
 
   <div class="cursor-glow" id="glow"></div>
@@ -650,7 +771,7 @@
           </div>
           <div class="info-row">
             <span class="info-label">학력</span>
-            <span class="info-value">가천대학교<br/>소프트웨어학과</span>
+            <span class="info-value">가천대학교<br />소프트웨어학과</span>
           </div>
           <div class="info-row">
             <span class="info-label">취미</span>
@@ -733,58 +854,74 @@
       <!-- 고정 4개 -->
       <div class="projects-grid">
 
-        <a href="https://github.com/YongwanJoo/YongwanJoo.github.io/blob/main/agentops.html" class="project-card reveal" target="_blank">
-          <div class="project-image-placeholder"></div>
+        <a href="agentops.html" class="project-card reveal" target="_blank">
+          <div class="project-image-placeholder">
+            <img src="images/agentops.png" alt="AgentOps Architecture">
+          </div>
           <div class="project-content">
             <div class="project-period">2026.03 — 2026.04</div>
             <div class="project-name">AgentOps 구축 프로젝트</div>
-            <p class="project-desc">AgentOps 아키텍처를 기반으로 배포, 지식 자동화, 품질 평가 및 실시간 관측이 통합된 하이브리드 모델 추론 환경을 구축하여 인프라 운영 효율을 극대화.<br /><b>AgentOps</b> Kubernetes 및 ArgoCD 운영 중 발생하는 장애를 정밀하게 분석하고 최적의 해결책을 제시하는 지능형 SRE 에이전트 플랫폼.</p>
+            <p class="project-desc">AgentOps 아키텍처를 기반으로 배포, 지식 자동화, 품질 평가 및 실시간 관측이 통합된 하이브리드 모델 추론 환경을 구축하여 인프라 운영 효율을
+              극대화.<br /><b>AgentOps</b> Kubernetes 및 ArgoCD 운영 중 발생하는 장애를 정밀하게 분석하고 최적의 해결책을 제시하는 지능형 SRE 에이전트 플랫폼.</p>
             <div class="tags">
-              <span class="tag">Python</span><span class="tag">LangGraph</span><span class="tag">LangChain</span><span class="tag">Qdrant</span><span class="tag">RAG</span><span class="tag">Langfuse</span>
+              <span class="tag">Python</span><span class="tag">LangGraph</span><span class="tag">LangChain</span><span
+                class="tag">Qdrant</span><span class="tag">RAG</span><span class="tag">Langfuse</span>
             </div>
             <span class="project-link">github.com/YongwanJoo/fisa-ce6-agent-platform ↗</span>
           </div>
         </a>
 
-        <a href="https://github.com/YongwanJoo/YongwanJoo.github.io/blob/main/msaplatform.html" class="project-card award reveal" target="_blank">
-          <div class="project-image-placeholder"></div>
+        <a href="msaplatform.html" class="project-card award reveal" target="_blank">
+          <div class="project-image-placeholder">
+            <img src="images/msa.png" alt="MSA Platform Architecture">
+          </div>
           <div class="project-content">
             <div class="project-top">
               <span class="award-badge">🏆 우수팀 수상</span>
             </div>
             <div class="project-period">2026.01 — 2026.02</div>
             <div class="project-name">MSA 플랫폼 구축 프로젝트</div>
-            <p class="project-desc"><b>Spring Boot</b> 기반 마이크로서비스 아키텍처 설계 및 구현.<br /><b>Kubernetes</b> & <b>Istio Service Mesh</b>로 트래픽 제어 및 안정적 운영 환경 구축.</p>
+            <p class="project-desc"><b>Spring Boot</b> 기반 마이크로서비스 아키텍처 설계 및 구현.<br /><b>Kubernetes</b> & <b>Istio
+                Service Mesh</b>로 트래픽 제어 및 안정적 운영 환경 구축.</p>
             <div class="tags">
-              <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Kubernetes</span><span class="tag">Istio</span><span class="tag">IaC</span><span class="tag">MSA</span>
+              <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Kubernetes</span><span
+                class="tag">Istio</span><span class="tag">IaC</span><span class="tag">MSA</span>
             </div>
             <span class="project-link">github.com/FISA-L2J/MSA-project ↗</span>
           </div>
         </a>
 
-        <a href="https://github.com/YongwanJoo/YongwanJoo.github.io/blob/main/vmware.html" class="project-card reveal" target="_blank">
-          <div class="project-image-placeholder"></div>
+        <a href="vmware.html" class="project-card reveal" target="_blank">
+          <div class="project-image-placeholder">
+            <img src="images/vmware.png" alt="VMware Virtualization">
+          </div>
           <div class="project-content">
             <div class="project-top"></div>
             <div class="project-period">2026.03</div>
             <div class="project-name">VMware 가상화 인프라 구축</div>
-            <p class="project-desc"><b>Linux/Windows</b> VM 생성 및 관리 실습.<br /><b>vSphere</b> 클러스터 구성과 공유 스토리지 설정을 통한 <b>고가용성</b> 인프라 구축 경험.</p>
+            <p class="project-desc"><b>Linux/Windows</b> VM 생성 및 관리 실습.<br /><b>vSphere</b> 클러스터 구성과 공유 스토리지 설정을 통한
+              <b>고가용성</b> 인프라 구축 경험.</p>
             <div class="tags">
-              <span class="tag">VMware</span><span class="tag">Linux</span><span class="tag">Windows</span><span class="tag">vSphere</span><span class="tag">vCenter</span>
+              <span class="tag">VMware</span><span class="tag">Linux</span><span class="tag">Windows</span><span
+                class="tag">vSphere</span><span class="tag">vCenter</span>
             </div>
             <span class="project-link">github.com/FISA-VMware-Team2/VMware-proj ↗</span>
           </div>
         </a>
 
-        <a href="https://github.com/YongwanJoo/YongwanJoo.github.io/blob/main/rag.html" class="project-card reveal">
-          <div class="project-image-placeholder"></div>
+        <a href="rag.html" class="project-card reveal">
+          <div class="project-image-placeholder">
+            <img src="images/rag.png" alt="RAG Chatbot Architecture">
+          </div>
           <div class="project-content">
             <div class="project-top"></div>
             <div class="project-period">2025.10 — 2025.12</div>
             <div class="project-name">RAG 기반 사내규정 챗봇 (DKaffeine)</div>
-            <p class="project-desc">디케이테크인 기업 실무 프로젝트.<br /><b>RAG</b> 파이프라인으로 사내 규정 문서를 벡터화하여 정확한 답변을 제공하는 AI 챗봇 서비스 구축.</p>
+            <p class="project-desc">디케이테크인 기업 실무 프로젝트.<br /><b>RAG</b> 파이프라인으로 사내 규정 문서를 벡터화하여 정확한 답변을 제공하는 AI 챗봇 서비스
+              구축.</p>
             <div class="tags">
-              <span class="tag">LangGraph</span><span class="tag">FastAPI</span><span class="tag">AWS Bedrock</span><span class="tag">RAG</span>
+              <span class="tag">LangGraph</span><span class="tag">FastAPI</span><span class="tag">AWS
+                Bedrock</span><span class="tag">RAG</span>
             </div>
             <span class="project-link">DKaffeine-AI-Chatbot ↗</span>
           </div>
@@ -800,8 +937,10 @@
         </button>
         <div class="projects-more-grid" id="projectsMore">
 
-          <a href="https://github.com/YongwanJoo/YongwanJoo.github.io/blob/main/n8n_trading.html" class="project-card">
-            <div class="project-image-placeholder"></div>
+          <a href="n8n_trading.html" class="project-card">
+            <div class="project-image-placeholder">
+              <img src="images/n8n_workflow1.png" alt="n8n Trading Workflow">
+            </div>
             <div class="project-content">
               <div class="project-top"></div>
               <div class="project-period">2026.01</div>
@@ -814,13 +953,16 @@
             </div>
           </a>
 
-          <a href="https://github.com/YongwanJoo/YongwanJoo.github.io/blob/main/loventure.html" class="project-card">
-            <div class="project-image-placeholder"></div>
+          <a href="loventure.html" class="project-card">
+            <div class="project-image-placeholder">
+              <img src="images/loventure.png" alt="Loventure App Screenshot">
+            </div>
             <div class="project-content">
               <div class="project-top"></div>
               <div class="project-period">2025.09 — 2025.10</div>
               <div class="project-name">Loventure — AI 데이트 코스 추천</div>
-              <p class="project-desc">가천 SW 아카데미 현장 미러형 프로젝트.<br /><b>Spring Boot</b> & <b>FastAPI</b> 기반 데이트 코스 추천 서비스.</p>
+              <p class="project-desc">가천 SW 아카데미 현장 미러형 프로젝트.<br /><b>Spring Boot</b> & <b>FastAPI</b> 기반 데이트 코스 추천 서비스.
+              </p>
               <div class="tags">
                 <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">MySQL</span>
               </div>
@@ -940,7 +1082,7 @@
     const glow = document.getElementById('glow');
     document.addEventListener('mousemove', e => {
       glow.style.left = e.clientX + 'px';
-      glow.style.top  = e.clientY + 'px';
+      glow.style.top = e.clientY + 'px';
     });
 
     // Scroll reveal
@@ -958,7 +1100,7 @@
     // Projects accordion
     function toggleProjects() {
       const grid = document.getElementById('projectsMore');
-      const btn  = document.getElementById('projectsToggle');
+      const btn = document.getElementById('projectsToggle');
       const icon = document.getElementById('toggleIcon');
       const isOpen = grid.classList.contains('open');
 
@@ -975,4 +1117,5 @@
   </script>
 
 </body>
+
 </html>

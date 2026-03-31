@@ -174,16 +174,16 @@
 
     .arch-placeholder {
       width: 100%;
-      aspect-ratio: 16/9;
-      background: #f1f5f9;
-      border: 2px dashed #cbd5e1;
+      background: #f8fafc;
+      border: 1px solid var(--border);
       border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+      overflow: hidden;
       margin-top: 1rem;
+    }
+    .arch-placeholder img {
+      width: 100%;
+      height: auto;
+      display: block;
     }
   </style>
 </head>
@@ -237,10 +237,21 @@
     </section>
 
     <section>
-      <h2>시스템 아키텍처</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem;">GCP Cloud Run 기반의 서버리스 아키텍처와 이벤트 기반 워크플로우 구성</p>
-      <div class="arch-placeholder">
-        n8n 워크플로우 및 클라우드 인프라 구성도 이미지를 여기에 삽입하세요 (16:9 권장)
+      <h2>워크플로우 설계</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">기능별로 분리된 3가지 핵심 워크플로우 (AI 챗봇, 투자 제안, 포지션 감시)</p>
+      <div style="display: flex; flex-direction: column; gap: 2rem; margin-top: 1.5rem;">
+        <div class="arch-card">
+          <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--accent);">#1 AI 기반 트레이딩 챗봇</p>
+          <img src="images/n8n_workflow1.png" alt="n8n Workflow 1" style="width: 100%; border-radius: 12px; border: 1px solid var(--border);">
+        </div>
+        <div class="arch-card">
+          <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--accent);">#2 투자 제안 및 승인 프로세스</p>
+          <img src="images/n8n_workflow2.png" alt="n8n Workflow 2" style="width: 100%; border-radius: 12px; border: 1px solid var(--border);">
+        </div>
+        <div class="arch-card">
+          <p style="font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--accent);">#3 포지션 감시 및 자동 청산</p>
+          <img src="images/n8n_workflow3.png" alt="n8n Workflow 3" style="width: 100%; border-radius: 12px; border: 1px solid var(--border);">
+        </div>
       </div>
     </section>
 

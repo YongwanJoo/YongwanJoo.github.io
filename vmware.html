@@ -172,18 +172,13 @@
             opacity: 0.7;
         }
 
-        .arch-placeholder {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: #f1f5f9;
-            border: 2px dashed #cbd5e1;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+        .arch-placeholder { 
+            width: 100%; background: #f8fafc; border: 1px solid var(--border); 
+            border-radius: 12px; overflow: hidden;
             margin-top: 1rem;
+        }
+        .arch-placeholder img {
+            width: 100%; height: auto; display: block;
         }
     </style>
 </head>
@@ -243,7 +238,7 @@
             <h2>시스템 아키텍처</h2>
             <p style="color: var(--text-muted); font-size: 0.9rem;">vCenter를 중심으로 여러 ESXi 호스트와 공유 스토리지가 결합된 클러스터 구조</p>
             <div class="arch-placeholder">
-                vSphere 클러스터 구성도 이미지를 여기에 삽입하세요 (16:9 권장)
+                <img src="images/vmware.png" alt="VMware Virtualization">
             </div>
         </section>
 
