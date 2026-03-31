@@ -79,7 +79,7 @@
     <header class="project-header">
       <span class="project-period">2026.01 — 2026.02</span>
       <h1 class="project-title">MSA 플랫폼 구축 프로젝트</h1>
-      <p class="project-tagline">Spring Boot 기반의 계좌·거래 마이크로서비스 아키텍처 및 GKE/Istio 운영 환경 구축</p>
+      <p class="project-tagline">Spring Boot 기반의 계좌·거래 마이크로서비스 아키텍처 및 GKE/Istio/NATS 기반의 <b>이벤트 주도(Event-Driven)</b> 운영 환경 구축</p>
 
       <div class="meta-grid">
         <div class="meta-item">
@@ -110,11 +110,11 @@
         </div>
         <div class="card-item">
           <strong>JWT 토큰 전파 (Propagation)</strong>
-          <p><b>FeignClientInterceptor</b>를 구현하여 서비스 체인(Account → Transaction) 간 사용자 인증 문맥을 투명하게 공유</p>
+          <p><b>NATS 메시징 페이로드</b>에 사용자 식별 정보(UserId)를 포함하여 전달함으로써, 비동기 서비스 전반에 걸쳐 인증 문맥을 명시적으로 공유</p>
         </div>
         <div class="card-item">
           <strong>장애 격리 및 회복 탄력성</strong>
-          <p><b>Resilience4j Circuit Breaker</b>를 적용해 트랜잭션 서비스 장애가 계좌 서비스로 전이되는 것을 차단하고 <b>Fallback</b> 로직으로 사용자 응답 유지</p>
+          <p><b>NATS JetStream</b>의 메시지 큐 구조를 활용한 서비스 간 결합도 제거 및 비동기 처리를 통한 시스템 장애 격리</p>
         </div>
         <div class="card-item">
           <strong>DB 격리 (Logical Separation)</strong>
@@ -172,7 +172,7 @@
         </div>
         <div class="card-item ts-item">
           <strong>마이크로서비스 간 인증 정보 유실</strong>
-          <p>서비스 체인 호출 시 JWT 헤더가 누락되는 문제를 FeignClientInterceptor를 통한 자동 전파 구조로 해결</p>
+          <p>비동기 메시징 처리 시 JWT 헤더가 유실되는 문제를 <b>NATS 메시지 페이로드에 인증 Context를 직렬화하여 포함시키는 방식</b>으로 해결</p>
         </div>
       </div>
     </section>
