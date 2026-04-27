@@ -226,54 +226,57 @@
       <h2>주요 기능</h2>
       <div class="card-list">
         <div class="card-item">
-          <strong>자동 장애 대응</strong>
-          <p><b>Prometheus</b> 지표 감지 시 에이전트가 자동 가동되어 분석 리포트를 <b>Discord</b>로 전송</p>
+          <strong>Autonomous SRE Agent</strong>
+          <p><b>Prometheus</b> AlertManager와 연동하여 장애 발생 시 <b>LangGraph</b> 기반 에이전트가 자동 가동됩니다. 장애 로그 분석, 원인 파악 및 해결 방안이 포함된 리포트를 <b>Discord</b>로 실시간 전송합니다.</p>
         </div>
         <div class="card-item">
-          <strong>자동 데이터 적재</strong>
-          <p><b>n8n 파이프라인</b>으로 매일 문서를 크롤링하여 비교 후 업데이트 존재 시, <b>지식 베이스(Qdrant)</b>를 최신화</p>
+          <strong>Automated Knowledge Ingestion</strong>
+          <p><b>n8n</b> 기반의 데이터 파이프라인을 구축하여 최신 기술 문서를 매일 크롤링합니다. 변경 사항 발생 시 <b>Qdrant</b> 벡터 데이터베이스에 자동으로 반영하여 지식 베이스의 최신성을 유지합니다.</p>
         </div>
         <div class="card-item">
-          <strong>CI Eval</strong>
-          <p><b>GitHub Actions CI</b>에서 답변 품질을 자동 평가하여 점수 미달 시 <b>배포를 차단</b></p>
+          <strong>CI Eval Gate (RAG Quality Assurance)</strong>
+          <p><b>GitHub Actions</b> CI 파이프라인에 <b>Langfuse</b> 기반 평가 단계를 통합했습니다. 답변 품질(Faithfulness, Relevance 등) 점수가 기준치 미달일 경우 배포를 자동으로 차단하여 시스템 신뢰도를 보장합니다.</p>
+        </div>
+        <div class="card-item">
+          <strong>Observability & Tracing</strong>
+          <p><b>Langfuse</b>를 통한 LLM 추론 과정의 전수 트레이싱 및 비용 모니터링을 수행하며, <b>Grafana</b> 대시보드를 통해 인프라와 에이전트 상태를 통합 관측합니다.</p>
         </div>
       </div>
     </section>
 
     <section>
       <h2>시스템 아키텍처</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem;">GCP GKE 인프라와 GitOps, RAG 파이프라인이 통합된 구조</p>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">GCP GKE 인프라 내에서 지능형 에이전트, 벡터 DB, 관측성 도구가 유기적으로 통합된 자율 운영 아키텍처</p>
       <div class="arch-placeholder">
-        <img src="images/agentops.png" alt="AgentOps Architecture">
+        <img src="images/agentops_archit.png" alt="AgentOps Architecture (Autonomous SRE)">
       </div>
+      <p style="color: var(--text-subtle); font-size: 0.95rem; margin-top: 1rem;">
+        이 시스템은 <b>GitOps(ArgoCD)</b>를 통해 배포되며, <b>LangGraph</b>의 State Machine 구조를 활용해 멀티 스텝 분석 과정을 수행합니다. <b>Qdrant Sidecar</b> 패턴을 도입하여 CI 환경에서의 테스트 일관성을 확보했습니다.
+      </p>
     </section>
 
     <section>
-      <h2>트러블슈팅</h2>
+      <h2>트러블슈팅 (Lessons Learned)</h2>
       <div class="card-list">
         <div class="card-item ts-item">
-          <strong>CI 환경 내 Eval 점수 0점 발생</strong>
-          <p>CI 환경에 데이터가 없어 검색이 실패하던 문제를 Qdrant Sidecar 서비스 추가 및 평가 직전 데이터 자동 주입 스크립트 실행으로 해결</p>
+          <strong>CI 환경 내 검색 실패 및 Eval 0점 발생</strong>
+          <p>GitHub Actions CI 환경에서 로컬 Qdrant와의 연결 부재로 평가가 실패하던 문제를 <b>Service Sidecar</b> 패턴으로 Qdrant를 실행하고, 평가 직전 <b>Golden Set 데이터 자동 주입 스크립트</b>를 구성하여 해결했습니다.</p>
         </div>
         <div class="card-item ts-item">
-          <strong>GKE 배포 후 답변 품질 저하</strong>
-          <p>초기 배포 시 Qdrant 데이터가 없는 문제를 해결하기 위해 포트 포워딩을 통한 Golden Set 기반 초기 지식 수동 시딩 수행</p>
+          <strong>ArgoCD Self-Heal로 인한 Secret 동기화 충돌</strong>
+          <p>Kubernetes 내에서 직접 수정한 Secret이 Git 상태로 자동 원복되는 문제를 해결하기 위해, <b>External Secrets Operator</b> 도입 검토 또는 파이프라인을 통한 Git 소스 업데이트 방식으로 배포 프로세스를 개선했습니다.</p>
         </div>
         <div class="card-item ts-item">
-          <strong>PrometheusRule이 대시보드에 나타나지 않는 문제</strong>
-          <p>Prometheus Operator의 ruleSelector 레이블 매칭 문제로 확인되어, PrometheusRule 메타데이터에 적절한 레이블을 추가하여 해결</p>
+          <strong>PrometheusRule 레이블 불일치 이슈</strong>
+          <p>새로 생성한 Alert Rule이 대시보드에 감지되지 않던 문제를 분석하여, <b>Prometheus Operator</b>의 ruleSelector 설정에 정의된 특정 레이블(예: release: prometheus)이 누락되었음을 확인하고 이를 메타데이터에 추가하여 해결했습니다.</p>
         </div>
         <div class="card-item ts-item">
-          <strong>ArgoCD Self-Heal로 인한 Secret 원복 문제</strong>
-          <p>수동 수정한 Secret이 Git 상태로 강제 동기화되는 문제를 GitHub Actions 파이프라인 배포 혹은 Auto-Sync 일시 비활성화로 해결</p>
+          <strong>Langfuse 리전 불일치로 인한 401 Unauthorized</strong>
+          <p>클라우드 환경 배포 후 트레이싱 데이터 전송이 중단되는 문제를 디버깅하여, SDK 설정 내 리전 엔드포인트와 실제 계정 리전의 불일치를 발견하고 <b>환경 변수(LANGFUSE_HOST)</b>를 명시적으로 수정하여 해결했습니다.</p>
         </div>
         <div class="card-item ts-item">
-          <strong>Langfuse 401 및 트레이싱 중단</strong>
-          <p>계정 리전 불일치 혹은 시크릿 업데이트 실패 문제를 정확한 리전 주소 확인 및 K8s Secret 재생성 후 롤아웃 재시작으로 해결</p>
-        </div>
-        <div class="card-item ts-item">
-          <strong>AlertManager Webhook 발송 지연</strong>
-          <p>단발성 이벤트 필터링을 위한 'for: 1m' 설계 의도를 파악하고, 테스트 시 관찰 시간을 충분히 확보하여 정상 작동 확인</p>
+          <strong>AlertManager Webhook 발송 로직 검증</strong>
+          <p>장애 발생 즉시 알림이 오지 않는 현상을 분석하여, Prometheus Rule의 'for: 1m' 설정에 따른 의도된 지연임을 확인했습니다. 이를 통해 실무 환경에서의 오탐 방지 설계의 중요성을 이해하고 테스트 시나리오를 보강했습니다.</p>
         </div>
       </div>
     </section>

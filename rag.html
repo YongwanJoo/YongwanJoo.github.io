@@ -212,47 +212,49 @@
       <h2>주요 기능</h2>
       <div class="card-list">
         <div class="card-item">
-          <strong>Hybrid RAG/FAQ 엔진</strong>
-          <p><b>AWS Bedrock Knowledge Base</b>의 문서 검색 역량과 <b>PostgreSQL/Redis</b> 기반의 고속 FAQ 검색을 결합하여 답변 정확도와 응답 속도를 동시
-            확보</p>
+          <strong>KakaoWork Integrated Chatbot</strong>
+          <p>기업용 메신저인 <b>카카오워크(KakaoWork) API</b>와 연동하여 임직원들이 별도의 서비스 접속 없이 실시간으로 사내 규정을 조회할 수 있는 환경을 구축했습니다.</p>
         </div>
         <div class="card-item">
-          <strong>지능형 FAQ 자동 생성 파이프라인</strong>
-          <p><b>Celery 비동기 작업</b>을 활용하여 신뢰도가 높은 RAG 답변을 FAQ 후보로 자동 생성하고, 의미 기반 클러스터링을 통해 지식 베이스를 최신화</p>
+          <strong>Precision RAG Pipeline (AWS Bedrock)</strong>
+          <p><b>AWS Bedrock</b>과 <b>LangGraph</b>를 활용하여 사내 문서를 시맨틱 검색하고 답변을 생성합니다. 문서의 구조적 특성을 고려한 <b>Chunking 전략</b>과 <b>Hybrid Search</b>를 통해 답변 정확도를 극대화했습니다.</p>
         </div>
         <div class="card-item">
-          <strong>다층 가드레일 및 보안 설계</strong>
-          <p><b>Prompt Injection</b> 방지 로직과 블랙리스트, 민감 정보 마스킹을 적용하고 <b>Guardrail</b> 노드를 통해 부적절한 콘텐츠의 생성을 원천 차단</p>
+          <strong>Administrative Backoffice System</strong>
+          <p>관리자가 지식 베이스를 손쉽게 관리하고, 챗봇 답변 이력을 모니터링하며, FAQ 데이터를 수동으로 교정할 수 있는 전용 <b>Backoffice 관리자 페이지</b>를 구축했습니다.</p>
         </div>
         <div class="card-item">
-          <strong>뉴스 브리핑</strong>
-          <p>매일 자동 수집된 IT 뉴스를 요약 브리핑하는 부가 서비스 구현</p>
+          <strong>Automated FAQ & Knowledge Update</strong>
+          <p>사용자 질문 중 빈도가 높은 항목을 <b>LLM</b>이 분석하여 FAQ 후보를 제안하고, 관리자 승인 시 지식 베이스에 자동으로 반영되는 지식 선순환 구조를 설계했습니다.</p>
         </div>
       </div>
     </section>
 
     <section>
       <h2>시스템 아키텍처</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem;">Clean Architecture (Port/Adapter) 기반의 모듈화된 챗봇 구조</p>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">RAG 파이프라인과 엔터프라이즈 인터페이스가 결합된 통합 지식 서비스 구조</p>
       <div class="arch-placeholder">
         <img src="images/rag.png" alt="RAG Chatbot Architecture">
       </div>
+      <p style="color: var(--text-subtle); font-size: 0.95rem; margin-top: 1rem;">
+        본 시스템은 <b>FastAPI</b> 기반의 백엔드 서버를 중심으로 <b>AWS Bedrock Knowledge Base</b>를 검색 엔진으로 사용합니다. 보안을 위해 기업 내부 문서의 외부 유출을 차단하는 <b>Data Guardrail</b>을 적용했으며, 대량의 비동기 작업을 위해 <b>Redis/Celery</b>를 도입했습니다.
+      </p>
     </section>
 
     <section>
-      <h2>트러블슈팅</h2>
+      <h2>트러블슈팅 (Lessons Learned)</h2>
       <div class="card-list">
         <div class="card-item ts-item">
-          <strong>대량 로그 및 데이터 처리 지연 문제</strong>
-          <p>채팅 로그 저장 및 FAQ 후보 생성 과정에서의 API 응답 지연을 <b>Celery + Redis</b> 기반 비동기 큐 시스템 도입으로 시스템 부하를 성공적으로 분산</p>
+          <strong>RAG 답변의 정확도 및 할루시네이션(Hallucination) 억제</strong>
+          <p>대규모 사내 규정 문서에서 정확한 정보를 추출하기 위해 <b>임베딩 모델 최적화</b>와 <b>Similarity Threshold</b>를 정밀 튜닝했습니다. 근거가 없는 질문에는 답변을 거부하도록 설계하여 신뢰도를 높였습니다.</p>
         </div>
         <div class="card-item ts-item">
-          <strong>AWS Bedrock Inference Profile 설정 오류</strong>
-          <p>특정 모델(Claude Haiku 4.5) 호출 시 발생하는 타임아웃 및 권한 문제를 고유 Inference Profile ARN 수동 매핑 및 자격 증명 최적화로 해결</p>
+          <strong>기업 내부 문서 보안 및 접근 제어</strong>
+          <p>민감한 인사 규정 등이 외부로 유출되지 않도록 API 통신 구간을 암호화하고, <b>Pll(개인 식별 정보) 마스킹</b> 로직을 도입하여 보안 요구사항을 충족했습니다.</p>
         </div>
         <div class="card-item ts-item">
-          <strong>검색 임계값 설정에 따른 답변 품질 저하</strong>
-          <p>FAQ와 RAG 간의 검색 우선순위 및 유사도 임계값(Similarity Threshold) 충돌 문제를 정밀 튜닝과 <b>LangSmith</b> 모니터링 분석을 통해 최적화</p>
+          <strong>카카오워크 웹훅(Webhook) 처리 및 응답 지연 해결</strong>
+          <p>메신저 플랫폼의 응답 시간 제한(5초) 내에 답변이 생성되지 않는 문제를 해결하기 위해, <b>비동기 응답 처리(Immediate Response + Async Edit)</b> 방식으로 워크플로우를 개선했습니다.</p>
         </div>
       </div>
     </section>
