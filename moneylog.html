@@ -804,8 +804,8 @@
     /* ── Retrospective ── */
     .retro-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
 
     .retro-card {
@@ -934,10 +934,6 @@
         grid-template-columns: 1fr;
       }
 
-      .retro-grid {
-        grid-template-columns: 1fr;
-      }
-
       .repo-branch {
         flex-direction: column;
         align-items: center;
@@ -1025,9 +1021,6 @@
         </div>
 
       </div>
-
-      '" />
-    </div>
     </div>
   </section>
 
@@ -1039,8 +1032,8 @@
       <p class="section-label">Project Overview</p>
       <h2 class="section-title">왜 MoneyLog를 만들었는가</h2>
       <p class="section-desc">
-        기존 금융 앱은 단순 지출 기록에 그치고, 청년층이 필요로 하는 정책·혜택 정보는 여러 사이트에 흩어져 있습니다. MoneyLog는 소비 데이터를 시각적 콘텐츠로 전환하고, AI 분석과 커뮤니티를
-        결합해 금융 생활의 진입 장벽을 낮추는 것을 목표로 합니다.
+        기존 금융 앱은 단순 지출 기록에 그치고, 청년층이 필요로 하는 정책·혜택 정보는 여러 사이트에 흩어져 있었습니다. MoneyLog는 소비 데이터를 시각적 콘텐츠로 전환하고, AI 분석과 커뮤니티를
+        결합해 금융 생활의 진입 장벽을 낮추는 것을 목표로 기획했습니다.
       </p>
 
       <div class="overview-grid">
@@ -1048,19 +1041,19 @@
           <div class="card-title">기존 금융 서비스와의 차별점</div>
           <div class="card-text">
             기존 가계부 앱이 "지출 기록 → 통계"에 머무르는 것과 달리, MoneyLog는 소비 데이터를 금융 피드 콘텐츠로 변환하여 공유하고, 또래 사용자와 비교·피드백을 주고받을 수 있는 금융 SNS
-            환경을 제공합니다.
+            환경을 제공했습니다.
           </div>
         </div>
         <div class="card">
           <div class="card-title">AI 기반 금융 분석</div>
           <div class="card-text">
-            월별 소비 패턴을 AI가 분석하여 리포트를 생성하고, 불필요한 지출 패턴과 절약 포인트를 시각적으로 제시합니다.
+            월별 소비 패턴을 AI가 분석하여 리포트를 생성하고, 불필요한 지출 패턴과 절약 포인트를 시각적으로 제시하도록 구현했습니다.
           </div>
         </div>
         <div class="card">
           <div class="card-title">금융 SNS</div>
           <div class="card-text">
-            소비 기록을 피드 형태로 공유하고, 또래의 소비 습관을 참고하며, 금융 관련 팁과 경험을 교류할 수 있는 커뮤니티를 제공합니다.
+            소비 기록을 피드 형태로 공유하고, 또래의 소비 습관을 참고하며, 금융 관련 팁과 경험을 교류할 수 있는 커뮤니티를 제공했습니다.
           </div>
         </div>
         <div class="card">
@@ -1194,27 +1187,27 @@
         <div class="card card-accent">
           <div class="card-title">Hybrid Cloud</div>
           <div class="card-text">
-            사용자 트래픽을 직접 받는 주요 서비스는 AWS 클라우드에, 내부 운영 도구와 외부 API 수집은 온프레미스에 배치하여 운영성·보안·확장성을 함께 고려한 구조입니다.
+            사용자 트래픽을 직접 받는 주요 서비스는 AWS 클라우드에, 내부 운영 도구와 외부 API 수집은 온프레미스에 배치하여 운영성·보안·확장성을 함께 고려한 구조로 설계했습니다.
           </div>
         </div>
         <div class="card card-accent">
           <div class="card-title">AWS (EKS)</div>
           <div class="card-text">
-            Gateway, Config, Auth, Feed/Social, Budget, AI Recommend 등 핵심 서비스를 AWS EKS에 배치합니다. Route 53, Shield, WAF,
+            Gateway, Config, Auth, Feed/Social, Budget, AI Recommend 등 핵심 서비스를 AWS EKS에 배치했습니다. Route 53, Shield, WAF,
             ALB, RDS, ElastiCache, SQS/SNS 등 관리형 서비스를 활용해 가용성과 운영 부담을 고려했습니다.
           </div>
         </div>
         <div class="card card-accent">
           <div class="card-title">On-premise (VMware ESXi)</div>
           <div class="card-text">
-            알림 서비스, 관리자 대시보드, 외부 API 수집 컴포넌트를 온프레미스 Kubernetes에 배치합니다. pfSense와 WireGuard를 통해 접근 경로를 통제하는 구조로 설계했습니다.
+            알림 서비스, 관리자 대시보드, 외부 API 수집 컴포넌트를 온프레미스 Kubernetes에 배치했습니다. pfSense와 WireGuard를 통해 접근 경로를 통제하는 구조로 설계했습니다.
           </div>
         </div>
         <div class="card card-accent">
           <div class="card-title">MSA (Microservices Architecture)</div>
           <div class="card-text">
             Auth, AI Recommend, API Connector, Budget, Alarm, Social 서비스를 분리하고, 각 서비스가 자신의 DB를 소유하도록 설계해 배포와 장애 범위를
-            독립적으로 관리합니다.
+            독립적으로 관리했습니다.
           </div>
         </div>
         <div class="card card-accent">
@@ -1234,8 +1227,8 @@
         <div class="card card-accent">
           <div class="card-title">CQRS</div>
           <div class="card-text">
-            다른 서비스의 테이블을 직접 조회하지 않도록, 필요한 데이터만 서비스별 읽기 모델로 복제해 보관합니다. 원천 데이터 변경은 SQS와 NATS JetStream 이벤트로 전파하고, 구독 서비스가
-            자신의 복제 DB를 비동기로 갱신합니다.
+            다른 서비스의 테이블을 직접 조회하지 않도록, 필요한 데이터만 서비스별 읽기 모델로 복제해 보관했습니다. 원천 데이터 변경은 SQS와 NATS JetStream 이벤트로 전파하고, 구독 서비스가
+            자신의 복제 DB를 비동기로 갱신하도록 구성했습니다.
           </div>
         </div>
         <div class="card card-accent">
@@ -1871,11 +1864,11 @@
             <ul>
               <li><strong>MSA 설계 및 하이브리드 클라우드 운영:</strong><br>EKS와 온프레미스 VMware 환경을 넘나들며 시스템을 설계하면서, <strong>분산 환경에서의
                   네트워크 토폴로지와 보안 아키텍처</strong>를 깊이 이해하게 되었습니다.</li>
-              <li><strong>데이터 정합성 및 이벤트 주도 구조(EDA):</strong><br>서비스 간 분리된 데이터베이스 환경에서 발생할 수 있는 문제들을 <strong>NATS
+              <li><strong>데이터 정합성 및 이벤트 주도 구조:</strong><br>서비스 간 분리된 데이터베이스 환경에서 발생할 수 있는 문제들을 <strong>NATS
                   JetStream 기반의 비동기 메시징과 CQRS 패턴</strong>을 도입하여 실질적으로 해결하는 경험을 쌓았습니다.</li>
               <li><strong>Observability 기반의 DevOps 파이프라인:</strong><br>단순히 코드를 배포하는 것을 넘어, <strong>Prometheus RED Metrics
                   기반의 견고한 모니터링 환경</strong>을 구축하고 Argo Rollouts을 통한 안전한 Canary 배포를 구현하며 SRE 관점의 운영 노하우를 체득했습니다.</li>
-              <li><strong>AI 기반 서비스 운영 (LLMOps):</strong><br><strong>LLM-as-a-Judge 파이프라인을 CI에 통합</strong>하여, 비결정론적인 생성형
+              <li><strong>AI 기반 서비스 운영:</strong><br><strong>LLM-as-a-Judge 파이프라인을 CI에 통합</strong>하여, 비결정론적인 생성형
                 AI 서비스의 품질을 자동화된 방식으로 정량 평가하고 배포 안정성을 확보하는 방안을 터득했습니다.</li>
             </ul>
           </div>
@@ -1885,10 +1878,10 @@
           <div class="retro-card-title">아쉬운 점</div>
           <div class="retro-card-text">
             <ul>
-              <li><strong>물리 장비 한계로 인한 고가용성(HA/FT) 구성 제약:</strong><br>MSA 복잡성과 트래픽 확장에 대비하기 위해 무중단 배포와 오토스케일링(HPA) 등을
-                구성했으나, <strong>온프레미스 인프라를 구성하는 물리 장비 리소스의 한계</strong>로 인해 완전한 Fault Tolerance(FT) 및 데이터베이스 고가용성(HA)
+              <li><strong>물리 장비 한계로 인한 고가용성 구성 제약:</strong><br>MSA 복잡성과 트래픽 확장에 대비하기 위해 무중단 배포와 오토스케일링 등을
+                구성했으나, <strong>온프레미스 인프라를 구성하는 물리 장비 리소스의 한계</strong>로 인해 완전한 Fault Tolerance 및 데이터베이스 고가용성
                 클러스터를 구성하지 못했습니다.</li>
-              <li>특히 장애 발생 시의 <strong>장애 조치(Failover) 시나리오를 물리적으로 완벽하게 검증하지 못한 것</strong>이 큰 아쉬움으로 남습니다.</li>
+              <li>특히 장애 발생 시의 <strong>장애 조치 시나리오를 물리적으로 완벽하게 검증하지 못한 것</strong>이 큰 아쉬움으로 남습니다.</li>
             </ul>
           </div>
         </div>
@@ -1897,9 +1890,9 @@
           <div class="retro-card-title">향후 개선</div>
           <div class="retro-card-text">
             <ul>
-              <li><strong>인프라 운영 경험 확장과 HA/FT 검증:</strong><br>MoneyLog 프로젝트에서는 물리 장비 제약이 있었으나, 현재 진행 중인 OpenStack 기반
+              <li><strong>인프라 운영 경험 확장과 고가용성 검증:</strong><br>MoneyLog 프로젝트에서는 물리 장비 제약이 있었으나, 현재 진행 중인 OpenStack 기반
                 Private Cloud 구축 프로젝트를 통해 <strong>다양한 가상화 플랫폼 위에서 리소스 제약을 극복하는 경험</strong>을 확장하고 있습니다.</li>
-              <li>이를 바탕으로 Kubernetes 환경과 분산 데이터베이스 환경을 다시 구축하고, <strong>완벽한 HA/FT 아키텍처를 설계</strong>하여 노드 장애나 네트워크 단절
+              <li>이를 바탕으로 Kubernetes 환경과 분산 데이터베이스 환경을 다시 구축하고, <strong>완벽한 고가용성 아키텍처를 설계</strong>하여 노드 장애나 네트워크 단절
                 시나리오에서도 <strong>서비스 가용성을 100% 보장하는 견고한 인프라 운영 역량</strong>을 갖추고자 합니다.</li>
             </ul>
           </div>
