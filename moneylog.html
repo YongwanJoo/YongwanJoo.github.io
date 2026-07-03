@@ -4,18 +4,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MoneyLog 프로젝트 상세 — 주용완</title>
+  <title>MoneyLog — 청년 맞춤형 금융 생활 관리 플랫폼</title>
+  <meta name="description" content="MoneyLog 프로젝트 상세 기술 문서. AWS EKS와 온프레미스 Kubernetes를 연결한 하이브리드 클라우드 MSA 금융 플랫폼." />
   <link rel="stylesheet" as="style" crossorigin
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
+    /* ── Design Tokens (기존 유지) ── */
     :root {
       --bg: #f8fafc;
       --surface: #ffffff;
       --border: #e2e8f0;
       --accent: #2563eb;
+      --accent-light: #eff6ff;
+      --accent-border: #bfdbfe;
       --text: #0f172a;
       --text-muted: #64748b;
       --text-subtle: #475569;
+      --radius: 12px;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 5rem;
     }
 
     body {
@@ -23,91 +41,251 @@
       color: var(--text);
       font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
       line-height: 1.7;
-      margin: 0;
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ── Container ── */
     .container {
       max-width: 800px;
       margin: 0 auto;
-      padding: 4rem 2rem;
+      padding: 0 2rem;
     }
 
-    .project-header {
-      margin-bottom: 4rem;
+    .container-wide {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 2rem;
     }
 
-    .project-period {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+    /* ── Navigation ── */
+    .page-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(248, 250, 252, 0.92);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 0;
+    }
+
+    .page-nav .container {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+
+    .page-nav .container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-back {
+      text-decoration: none;
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 1rem 0;
+    }
+
+    .nav-back:hover {
+      opacity: 0.7;
+    }
+
+    .nav-divider {
+      width: 1px;
+      height: 1.2rem;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.2rem;
+      list-style: none;
+      flex-shrink: 0;
+    }
+
+    .nav-links a {
       display: block;
+      padding: 1rem 0.7rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: color 0.2s, border-color 0.2s;
     }
 
-    .project-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      margin: 0 0 1rem 0;
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 5rem 0 4rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.9rem;
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid var(--accent-border);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-badge::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 5vw, 3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.15;
+      margin-bottom: 0.8rem;
       color: var(--text);
-      letter-spacing: -0.02em;
     }
 
-    .project-tagline {
-      font-size: 1.1rem;
+    .hero-subtitle {
+      font-size: 1.15rem;
       color: var(--text-subtle);
       margin-bottom: 2rem;
+      font-weight: 400;
+      line-height: 1.6;
     }
 
-    .meta-grid {
+    .hero-meta {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2.5rem;
     }
 
-    .meta-item {
+    .hero-meta-item {
       padding: 1.2rem;
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius);
     }
 
-    .meta-label {
-      font-size: 0.75rem;
+    .hero-meta-label {
+      font-size: 0.72rem;
       color: var(--accent);
-      font-weight: 600;
+      font-weight: 700;
       text-transform: uppercase;
+      letter-spacing: 0.06em;
       display: block;
       margin-bottom: 0.4rem;
     }
 
-    .meta-value {
+    .hero-meta-value {
       font-weight: 500;
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       color: var(--text);
+      line-height: 1.5;
     }
 
-    section {
-      margin-top: 4.5rem;
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
     }
 
-    h2 {
-      font-size: 1.5rem;
+    .tag {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.65rem;
+      background: #f1f5f9;
+      color: var(--text-subtle);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-weight: 500;
+    }
+
+    .hero-image {
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+      margin-top: 0.5rem;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Section Common ── */
+    .section {
+      padding: 5rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
       font-weight: 700;
       color: var(--text);
-      margin-bottom: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
     }
 
-    h2::before {
-      content: "";
-      width: 4px;
-      height: 1.2rem;
-      background: var(--accent);
-      border-radius: 2px;
+    .section-desc {
+      font-size: 1rem;
+      color: var(--text-subtle);
+      margin-bottom: 2.5rem;
+      max-width: 640px;
+      line-height: 1.7;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+
+    .card-text {
+      font-size: 0.92rem;
+      color: var(--text-subtle);
+      line-height: 1.65;
     }
 
     .card-list {
@@ -116,226 +294,1708 @@
       gap: 1rem;
     }
 
-    .card-item {
+    /* ── Card with accent left border ── */
+    .card-accent {
+      border-left: 3px solid var(--accent);
+    }
+
+    /* ── Overview Grid ── */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .overview-card-full {
+      grid-column: 1 / -1;
+    }
+
+    /* ── Service Preview Grid ── */
+    .preview-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .preview-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    .card-item strong {
-      color: var(--text);
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 1.05rem;
+    .preview-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
     }
 
-    .card-item p {
-      margin: 0;
-      color: var(--text-subtle);
-      font-size: 0.95rem;
-    }
-
-    .ts-item {
-      border-left: 4px solid #ef4444;
-    }
-
-    .ts-item strong {
-      color: #ef4444;
-    }
-
-    .decision-item {
-      border-left: 4px solid var(--accent);
-    }
-
-    .decision-item strong {
-      color: var(--accent);
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-
-    .tag {
-      font-size: 0.8rem;
-      padding: 0.25rem 0.7rem;
+    .preview-card-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
       background: #f1f5f9;
-      color: var(--text-subtle);
-      border-radius: 6px;
-      border: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
     }
 
-    .back-link {
-      text-decoration: none;
+    .preview-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 1.5rem;
+      box-sizing: border-box;
+      display: block;
+    }
+
+    .preview-card-image .img-placeholder {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .preview-card-image .img-placeholder span {
+      display: block;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      opacity: 0.3;
+    }
+
+    .preview-card-body {
+      padding: 1.2rem 1.5rem;
+    }
+
+    .preview-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+    }
+
+    .preview-card-oneliner {
+      font-size: 0.85rem;
       color: var(--accent);
       font-weight: 600;
-      font-size: 0.9rem;
-      transition: opacity 0.2s;
+      margin-bottom: 0.5rem;
     }
 
-    .back-link:hover {
-      opacity: 0.7;
+    .preview-card-desc {
+      font-size: 0.88rem;
+      color: var(--text-subtle);
+      line-height: 1.6;
     }
 
-    .arch-placeholder {
+    .preview-card-full {
+      grid-column: 1 / -1;
+    }
+
+    /* ── Architecture ── */
+    .arch-image-wrapper {
       width: 100%;
-      background: #f8fafc;
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: var(--radius);
       overflow: hidden;
-      margin-top: 1rem;
+      cursor: pointer;
+      background: var(--surface);
+      margin-bottom: 2rem;
+      transition: box-shadow 0.2s;
     }
 
-    .arch-placeholder img {
+    .arch-image-wrapper:hover {
+      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+    }
+
+    .arch-image-wrapper img {
       width: 100%;
       height: auto;
       display: block;
     }
 
-    @media (max-width: 680px) {
-      .container {
-        padding: 3rem 1.25rem;
+    .arch-caption {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: -1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .arch-details {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* ── Tech Stack Grid ── */
+    .techstack-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .techstack-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+    }
+
+    .techstack-category {
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.8rem;
+    }
+
+    .techstack-items {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .techstack-tag {
+      font-size: 0.82rem;
+      padding: 0.3rem 0.7rem;
+      background: #f1f5f9;
+      color: var(--text-subtle);
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      font-weight: 500;
+    }
+
+    .techstack-full {
+      grid-column: 1 / -1;
+    }
+
+    /* ── Contributions ── */
+    .contrib-group {
+      margin-bottom: 2.5rem;
+    }
+
+    .contrib-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .contrib-group-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .contrib-group-title::before {
+      content: "";
+      width: 4px;
+      height: 1.1rem;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .contrib-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .contrib-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.3rem;
+    }
+
+    .contrib-card-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .contrib-card-what {
+      font-size: 0.85rem;
+      color: var(--text-subtle);
+      line-height: 1.6;
+      margin-bottom: 0.4rem;
+    }
+
+    .contrib-card-why {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ── Repository Diagram ── */
+    .repo-diagram {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 2rem 0;
+    }
+
+    .repo-node {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 2rem;
+      text-align: center;
+      min-width: 220px;
+      position: relative;
+    }
+
+    .repo-node-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .repo-node-desc {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.2rem;
+    }
+
+    .repo-node-accent {
+      border-color: var(--accent);
+      background: var(--accent-light);
+    }
+
+    .repo-arrow {
+      width: 2px;
+      height: 28px;
+      background: var(--border);
+      position: relative;
+    }
+
+    .repo-arrow::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--border);
+    }
+
+    .repo-branch {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .repo-branch .repo-node {
+      min-width: 140px;
+      padding: 0.8rem 1.2rem;
+    }
+
+    /* ── Problem Solving Accordion ── */
+    .accordion-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .accordion-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .accordion-item summary {
+      padding: 1.2rem 1.5rem;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      user-select: none;
+    }
+
+    .accordion-item summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .accordion-item summary::after {
+      content: "+";
+      font-size: 1.3rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .accordion-item[open] summary::after {
+      content: "−";
+    }
+
+    .accordion-body {
+      padding: 0 1.5rem 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .accordion-placeholder {
+      padding: 1.5rem 0 0.5rem;
+    }
+
+    .accordion-placeholder .ph-section {
+      margin-bottom: 1.2rem;
+    }
+
+    .accordion-placeholder .ph-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .ph-label {
+      font-size: 0.72rem;
+      color: var(--accent);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.4rem;
+    }
+
+    .ph-area {
+      background: #f8fafc;
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      min-height: 40px;
+    }
+
+    /* ── DevOps Grid ── */
+    .devops-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .devops-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .devops-card-image {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: #f1f5f9;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .devops-card-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 1rem;
+      box-sizing: border-box;
+      display: block;
+    }
+
+    .devops-card-body {
+      padding: 1.2rem 1.5rem;
+    }
+
+    .devops-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+    }
+
+    .devops-card-desc {
+      font-size: 0.88rem;
+      color: var(--text-subtle);
+      line-height: 1.6;
+    }
+
+    /* ── Code Tabs ── */
+    .code-tabs {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .code-tab-nav {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+
+    .code-tab-btn {
+      padding: 0.9rem 1.5rem;
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .code-tab-btn:hover {
+      color: var(--text);
+    }
+
+    .code-tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .code-tab-panel {
+      display: none;
+      padding: 1.5rem;
+    }
+
+    .code-tab-panel.active {
+      display: block;
+    }
+
+    .code-tab-panel pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      border-radius: 8px;
+      padding: 1.2rem 1.5rem;
+      font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      overflow-x: auto;
+      margin: 0;
+    }
+
+    .code-tab-panel .code-placeholder {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    /* ── Retrospective ── */
+    .retro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .retro-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+
+    .retro-card-emoji {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .retro-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.6rem;
+    }
+
+    .retro-card-text {
+      font-size: 0.88rem;
+      color: var(--text-subtle);
+      line-height: 1.65;
+    }
+
+    .retro-card-text ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .retro-card-text li {
+      position: relative;
+      padding-left: 1rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .retro-card-text li::before {
+      content: "·";
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ── Lightbox ── */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.85);
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      cursor: zoom-out;
+    }
+
+    .lightbox-overlay.open {
+      display: flex;
+    }
+
+    .lightbox-overlay img {
+      max-width: 95%;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 2rem;
+      background: none;
+      border: none;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .lightbox-close:hover {
+      color: #fff;
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+
+      .container,
+      .container-wide {
+        padding: 0 1.25rem;
       }
 
-      .project-title {
+      .hero {
+        padding: 4rem 0 3rem;
+      }
+
+      .hero-title {
         font-size: 2rem;
       }
 
-      .meta-grid {
+      .hero-meta {
         grid-template-columns: 1fr;
       }
+
+      .section {
+        padding: 3.5rem 0;
+      }
+
+      .overview-grid,
+      .preview-grid,
+      .techstack-grid,
+      .contrib-grid,
+      .devops-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .retro-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .repo-branch {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .nav-links a {
+        padding: 0.8rem 0.5rem;
+        font-size: 0.75rem;
+      }
+    }
+
+    /* ── Image hover hint ── */
+    [data-lightbox] {
+      position: relative;
+    }
+
+    [data-lightbox]::after {
+      content: "클릭하여 확대";
+      position: absolute;
+      bottom: 0.6rem;
+      right: 0.8rem;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      font-size: 0.72rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
+    }
+
+    [data-lightbox]:hover::after {
+      opacity: 1;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <a href="index.html" class="back-link">← 포트폴리오로 돌아가기</a>
+  <!-- ── Navigation ── -->
+  <nav class="page-nav">
+    <div class="container-wide">
+      <a href="index.html" class="nav-back">← 포트폴리오</a>
+      <div class="nav-divider"></div>
+      <ul class="nav-links">
+        <li><a href="#hero">Hero</a></li>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#preview">Preview</a></li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#techstack">Tech Stack</a></li>
+        <li><a href="#contributions">Contributions</a></li>
+        <li><a href="#repository">Architecture Detail</a></li>
+        <li><a href="#problem-solving">Problem Solving</a></li>
+        <li><a href="#devops">DevOps</a></li>
+        <li><a href="#code">Code</a></li>
+        <li><a href="#retrospective">Retrospective</a></li>
+      </ul>
+    </div>
+  </nav>
 
-    <header class="project-header">
-      <span class="project-period">2026.05 — 진행 중</span>
-      <h1 class="project-title">MoneyLog: 청년 맞춤형 금융 생활 관리 플랫폼</h1>
-      <p class="project-tagline"><b>AWS EKS</b>와 온프레미스 <b>VMware/Kubernetes</b>를 연결하고, 서비스별 MSA를 분리해 운영하는 하이브리드 클라우드 프로젝트</p>
+  <!-- ══════════════════════════════════════════════
+       1. HERO
+       ══════════════════════════════════════════════ -->
+  <section class="hero" id="hero">
+    <div class="container">
+      <div class="hero-badge">COMPLETED · 2026.04 — 2026.06</div>
+      <h1 class="hero-title">MoneyLog</h1>
+      <p class="hero-subtitle">
+        청년 맞춤형 금융 생활 관리 플랫폼<br>
+        소비 기록을 콘텐츠로 공유하고, AI 기반 금융 분석 및 맞춤형 정책 정보를 제공하는 금융 생활 관리 서비스
+      </p>
 
-      <div class="meta-grid">
-        <div class="meta-item">
-          <span class="meta-label">Scope</span>
-          <span class="meta-value">
-            • 금융 피드 및 소셜 공유 서비스 설계<br>
-            • 서비스별 독립 배포가 가능한 MSA 분리<br>
-            • AWS EKS와 온프레미스 Kubernetes 연동<br>
-            • pfSense/WireGuard 기반 VPN 접근망 구성<br>
-            • CI/CD, 모니터링, 로깅 운영 흐름 구성
-          </span>
+      <div class="hero-meta">
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Period</span>
+          <span class="hero-meta-value">2026.04 — 2026.06 (약 8주)</span>
         </div>
-        <div class="meta-item">
-          <span class="meta-label">Tech Stack</span>
-          <div class="tags">
-            <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">Spring Cloud</span>
-            <span class="tag">AWS EKS</span><span class="tag">Kubernetes</span><span class="tag">VMware ESXi</span>
-            <span class="tag">Istio</span><span class="tag">Jenkins</span><span class="tag">Argo CD</span>
-            <span class="tag">PostgreSQL</span><span class="tag">Redis</span><span class="tag">NATS JetStream</span>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Team</span>
+          <span class="hero-meta-value">5명 (Backend · Infrastructure · Frontend 공동 수행)</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="hero-meta-label">Role</span>
+          <span class="hero-meta-value">Backend · Infrastructure · DevOps · Monitoring</span>
+        </div>
+
+      </div>
+
+      '" />
+    </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       2. PROJECT OVERVIEW
+       ══════════════════════════════════════════════ -->
+  <section class="section" id="overview">
+    <div class="container">
+      <p class="section-label">Project Overview</p>
+      <h2 class="section-title">왜 MoneyLog를 만들었는가</h2>
+      <p class="section-desc">
+        기존 금융 앱은 단순 지출 기록에 그치고, 청년층이 필요로 하는 정책·혜택 정보는 여러 사이트에 흩어져 있습니다. MoneyLog는 소비 데이터를 시각적 콘텐츠로 전환하고, AI 분석과 커뮤니티를
+        결합해 금융 생활의 진입 장벽을 낮추는 것을 목표로 합니다.
+      </p>
+
+      <div class="overview-grid">
+        <div class="card overview-card-full">
+          <div class="card-title">기존 금융 서비스와의 차별점</div>
+          <div class="card-text">
+            기존 가계부 앱이 "지출 기록 → 통계"에 머무르는 것과 달리, MoneyLog는 소비 데이터를 금융 피드 콘텐츠로 변환하여 공유하고, 또래 사용자와 비교·피드백을 주고받을 수 있는 금융 SNS
+            환경을 제공합니다.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">AI 기반 금융 분석</div>
+          <div class="card-text">
+            월별 소비 패턴을 AI가 분석하여 리포트를 생성하고, 불필요한 지출 패턴과 절약 포인트를 시각적으로 제시합니다.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">금융 SNS</div>
+          <div class="card-text">
+            소비 기록을 피드 형태로 공유하고, 또래의 소비 습관을 참고하며, 금융 관련 팁과 경험을 교류할 수 있는 커뮤니티를 제공합니다.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">청년 정책 추천</div>
+          <div class="card-text">
+            사용자 조건(나이, 소득, 지역 등)에 맞는 청년 정책, 복지, 카드 혜택, 보험 정보를 한곳에서 탐색하고 추천받을 수 있습니다.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">스마트 가계부</div>
+          <div class="card-text">
+            카테고리별 예산 설정, 자동 분류, 월간 리포트를 통해 체계적인 재정 관리를 지원합니다.
           </div>
         </div>
       </div>
-    </header>
+    </div>
+  </section>
 
-    <section>
-      <h2>프로젝트 개요</h2>
-      <div class="card-list">
-        <div class="card-item">
-          <strong>청년 맞춤형 금융 생활 관리 플랫폼</strong>
-          <p>단순 지출 기록을 넘어 소비 데이터를 시각적인 금융 피드로 전환하고, 사용자 간 공유와 피드백을 통해 금융 생활 관리의 진입 장벽을 낮추는 서비스를 목표로 합니다.</p>
+  <!-- ══════════════════════════════════════════════
+       3. SERVICE PREVIEW
+       ══════════════════════════════════════════════ -->
+  <section class="section" id="preview">
+    <div class="container">
+      <p class="section-label">Service Preview</p>
+      <h2 class="section-title">서비스 화면</h2>
+      <p class="section-desc">MoneyLog의 주요 화면을 소개합니다.</p>
+
+      <div class="preview-grid">
+        <!-- 금융 피드 -->
+        <div class="preview-card">
+          <div class="preview-card-image" data-lightbox>
+            <img src="images/moneylog/feed.png" alt="금융 피드 화면"
+              onerror="this.outerHTML='<div class=\'img-placeholder\'><span>📰</span>images/moneylog/feed.png</div>'" />
+          </div>
+          <div class="preview-card-body">
+            <div class="preview-card-title">금융 피드</div>
+            <div class="preview-card-oneliner">소비를 공유하는 새로운 금융 SNS</div>
+            <div class="preview-card-desc">
+              소비 기록을 카드 형태의 피드로 변환하여 타임라인에 게시합니다.
+              또래 사용자의 소비 패턴을 자연스럽게 참고하고, 좋아요·댓글로 피드백을 주고받을 수 있습니다.
+            </div>
+          </div>
         </div>
-        <div class="card-item">
-          <strong>AI 기반 소비 분석 및 맞춤 추천</strong>
-          <p>월별 소비 리포트와 사용자 조건 기반 추천을 통해 청년 정책, 복지, 카드, 보험 등 흩어진 금융 정보를 한곳에서 탐색할 수 있도록 설계했습니다.</p>
+
+        <!-- 가계부 -->
+        <div class="preview-card">
+          <div class="preview-card-image" data-lightbox>
+            <img src="images/moneylog/budget.png" alt="가계부 화면"
+              onerror="this.outerHTML='<div class=\'img-placeholder\'><span>💰</span>images/moneylog/budget.png</div>'" />
+          </div>
+          <div class="preview-card-body">
+            <div class="preview-card-title">가계부</div>
+            <div class="preview-card-oneliner">카테고리별 예산 관리와 시각화</div>
+            <div class="preview-card-desc">
+              수입·지출을 카테고리별로 분류하고, 월간 예산 대비 사용 현황을 차트로 확인합니다.
+              자동 분류 기능으로 반복적인 입력 부담을 줄였습니다.
+            </div>
+          </div>
         </div>
-        <div class="card-item">
-          <strong>서비스 단위로 분리된 MSA 구조</strong>
-          <p>Auth, AI Recommend, API Connector, Budget, Alarm, Social 서비스를 분리하고 각 서비스가 자신의 DB를 소유하도록 설계해 배포와 장애 범위를 독립적으로 관리합니다.</p>
+
+        <!-- AI 리포트 -->
+        <div class="preview-card">
+          <div class="preview-card-image" data-lightbox>
+            <img src="images/moneylog/ai-report.png" alt="AI 리포트 화면"
+              onerror="this.outerHTML='<div class=\'img-placeholder\'><span>🤖</span>images/moneylog/ai-report.png</div>'" />
+          </div>
+          <div class="preview-card-body">
+            <div class="preview-card-title">AI 리포트</div>
+            <div class="preview-card-oneliner">AI가 분석하는 나의 소비 습관</div>
+            <div class="preview-card-desc">
+              월별 소비 데이터를 AI가 분석하여 절약 포인트, 소비 트렌드, 또래 대비 지출 수준을
+              시각적으로 정리한 맞춤형 리포트를 제공합니다.
+            </div>
+          </div>
         </div>
-        <div class="card-item">
-          <strong>하이브리드 환경별 서비스 배치</strong>
-          <p>온프레미스에는 알림 서비스, 관리자용 대시보드 페이지, 외부 API 수집 컴포넌트를 배치하고, Gateway, Config, Auth, Feed/Social, Budget, AI Recommend 등 나머지 서비스는 클라우드 영역에서 운영하는 구조로 설계했습니다.</p>
+
+        <!-- 혜택 추천 -->
+        <div class="preview-card">
+          <div class="preview-card-image" data-lightbox>
+            <img src="images/moneylog/benefit.png" alt="혜택 추천 화면"
+              onerror="this.outerHTML='<div class=\'img-placeholder\'><span>🎁</span>images/moneylog/benefit.png</div>'" />
+          </div>
+          <div class="preview-card-body">
+            <div class="preview-card-title">혜택 추천</div>
+            <div class="preview-card-oneliner">조건에 맞는 금융·정책 정보 한 곳에서</div>
+            <div class="preview-card-desc">
+              사용자의 나이, 소득, 지역 등 조건을 기반으로 청년 정책, 카드 혜택, 보험 정보를
+              자동으로 필터링하고 추천합니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- 관리자 페이지 -->
+        <div class="preview-card preview-card-full">
+          <div class="preview-card-image" data-lightbox>
+            <img src="images/moneylog/admin.png" alt="관리자 페이지 화면"
+              onerror="this.outerHTML='<div class=\'img-placeholder\'><span>⚙️</span>images/moneylog/admin.png</div>'" />
+          </div>
+          <div class="preview-card-body">
+            <div class="preview-card-title">관리자 페이지</div>
+            <div class="preview-card-oneliner">서비스 운영을 위한 백오피스 대시보드</div>
+            <div class="preview-card-desc">
+              사용자 관리, 콘텐츠 모니터링, 정책 데이터 관리, 서비스 통계 확인 등
+              운영에 필요한 기능을 제공하는 관리자 전용 대시보드입니다.
+              온프레미스 환경에 별도로 배치하여 내부 운영 도구로 활용합니다.
+            </div>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section>
-      <h2>시스템 아키텍처</h2>
-      <p style="color: var(--text-muted); font-size: 0.9rem;">AWS EKS와 온프레미스 VMware ESXi 기반 Kubernetes를 Site-to-Site VPN으로 연결한 하이브리드 클라우드 아키텍처</p>
-      <div class="arch-placeholder">
-        <img src="images/moneylog_architecture.png" alt="MoneyLog Hybrid Cloud Architecture">
-      </div>
-      <p style="color: var(--text-subtle); font-size: 0.95rem; margin-top: 1rem;">
-        외부 트래픽은 Route 53, AWS Shield, WAF, ALB를 거쳐 EKS 서비스로 진입하고, 내부 서비스는 온프레미스 Kubernetes와 VPN으로 연동됩니다. 사용자 트래픽을 직접 받는 주요 서비스는 클라우드에 두고, 온프레미스에는 알림 서비스, 관리자 대시보드, 외부 API 수집 기능을 배치해 내부 운영성·외부 연계·서비스 확장성을 함께 검토했습니다.
+  <!-- ══════════════════════════════════════════════
+       4. ARCHITECTURE
+       ══════════════════════════════════════════════ -->
+  <section class="section" id="architecture">
+    <div class="container">
+      <p class="section-label">Architecture</p>
+      <h2 class="section-title">시스템 아키텍처</h2>
+      <p class="section-desc">
+        AWS EKS와 온프레미스 VMware ESXi 기반 Kubernetes를 Site-to-Site VPN으로 연결한 하이브리드 클라우드 아키텍처
       </p>
-    </section>
 
-    <section>
-      <h2>서비스 배치 전략</h2>
-      <div class="card-list">
-        <div class="card-item decision-item">
-          <strong>Cloud 영역</strong>
-          <p>Gateway, Config, Auth, Feed/Social, Budget, AI Recommend 등 사용자 요청 처리와 핵심 비즈니스 로직을 담당하는 서비스는 AWS EKS에 배치합니다. WAF, ALB, EKS, RDS, ElastiCache, SQS/SNS 같은 관리형 서비스를 활용해 가용성과 운영 부담을 함께 고려했습니다.</p>
+      <div class="arch-image-wrapper" data-lightbox>
+        <img src="images/moneylog_architecture.png" alt="MoneyLog Hybrid Cloud Architecture"
+          onerror="this.outerHTML='<div class=\'img-placeholder\' style=\'padding:4rem 2rem;text-align:center;color:#94a3b8;\'><span style=\'font-size:2.5rem;display:block;margin-bottom:0.5rem\'>🏗️</span>images/moneylog_architecture.png</div>'" />
+      </div>
+      <p class="arch-caption">이미지를 클릭하면 확대됩니다</p>
+
+      <div class="arch-details">
+        <div class="card card-accent">
+          <div class="card-title">Hybrid Cloud</div>
+          <div class="card-text">
+            사용자 트래픽을 직접 받는 주요 서비스는 AWS 클라우드에, 내부 운영 도구와 외부 API 수집은 온프레미스에 배치하여 운영성·보안·확장성을 함께 고려한 구조입니다.
+          </div>
         </div>
-        <div class="card-item decision-item">
-          <strong>On-premise 영역</strong>
-          <p>알림 서비스, 관리자용 대시보드 페이지, 외부 API 수집 컴포넌트는 온프레미스 Kubernetes에 둡니다. 외부 API 연동과 내부 운영 도구를 분리해 관리하고, pfSense와 WireGuard를 통해 접근 경로를 통제하는 구조로 설계했습니다.</p>
+        <div class="card card-accent">
+          <div class="card-title">AWS (EKS)</div>
+          <div class="card-text">
+            Gateway, Config, Auth, Feed/Social, Budget, AI Recommend 등 핵심 서비스를 AWS EKS에 배치합니다. Route 53, Shield, WAF,
+            ALB, RDS, ElastiCache, SQS/SNS 등 관리형 서비스를 활용해 가용성과 운영 부담을 고려했습니다.
+          </div>
+        </div>
+        <div class="card card-accent">
+          <div class="card-title">On-premise (VMware ESXi)</div>
+          <div class="card-text">
+            알림 서비스, 관리자 대시보드, 외부 API 수집 컴포넌트를 온프레미스 Kubernetes에 배치합니다. pfSense와 WireGuard를 통해 접근 경로를 통제하는 구조로 설계했습니다.
+          </div>
+        </div>
+        <div class="card card-accent">
+          <div class="card-title">MSA (Microservices Architecture)</div>
+          <div class="card-text">
+            Auth, AI Recommend, API Connector, Budget, Alarm, Social 서비스를 분리하고, 각 서비스가 자신의 DB를 소유하도록 설계해 배포와 장애 범위를
+            독립적으로 관리합니다.
+          </div>
+        </div>
+        <div class="card card-accent">
+          <div class="card-title">Redis Sentinel 기반 이중화</div>
+          <div class="card-text">
+            세션 캐시와 실시간 데이터를 처리하는 Redis를 Sentinel 구성으로 이중화하여, Primary 장애 시 자동 Failover가 이루어지도록 설계했습니다. 서비스 가용성을 높이고 단일 장애
+            지점을 제거하는 데 초점을 두었습니다.
+          </div>
+        </div>
+        <div class="card card-accent">
+          <div class="card-title">Kubernetes Control Plane 이중화</div>
+          <div class="card-text">
+            온프레미스 Kubernetes 클러스터의 Control Plane을 다중 노드로 구성하여 etcd와 API Server의 고가용성을 확보했습니다. 단일 마스터 노드 장애 시에도 클러스터 운영이
+            중단되지 않도록 설계했습니다.
+          </div>
+        </div>
+        <div class="card card-accent">
+          <div class="card-title">CQRS</div>
+          <div class="card-text">
+            다른 서비스의 테이블을 직접 조회하지 않도록, 필요한 데이터만 서비스별 읽기 모델로 복제해 보관합니다. 원천 데이터 변경은 SQS와 NATS JetStream 이벤트로 전파하고, 구독 서비스가
+            자신의 복제 DB를 비동기로 갱신합니다.
+          </div>
+        </div>
+        <div class="card card-accent">
+          <div class="card-title">VPN (pfSense + WireGuard)</div>
+          <div class="card-text">
+            AWS와 온프레미스 환경 사이의 통신 경로를 Site-to-Site VPN으로 제한하고, 장애가 한쪽 환경에 머물도록 배치하면서도 필요한 이벤트와 API 호출은 명확한 경로로만 오가도록
+            설계했습니다.
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section>
-      <h2>MSA 설계 고민</h2>
-      <div class="card-list">
-        <div class="card-item decision-item">
-          <strong>Database-per-service 원칙</strong>
-          <p>서비스 간 직접 DB 접근을 피하고 각 서비스가 자신의 데이터를 소유하도록 분리했습니다. 서비스 간 데이터 교환은 API 호출과 이벤트 흐름으로 제한해 결합도를 낮추는 방향으로 설계했습니다.</p>
+  <!-- ══════════════════════════════════════════════
+       5. TECH STACK
+       ══════════════════════════════════════════════ -->
+  <section class="section" id="techstack">
+    <div class="container">
+      <p class="section-label">Tech Stack</p>
+      <h2 class="section-title">사용 기술</h2>
+      <p class="section-desc">프로젝트에 사용된 기술을 영역별로 정리했습니다.</p>
+
+      <div class="techstack-grid">
+        <div class="techstack-card">
+          <div class="techstack-category">Backend</div>
+          <div class="techstack-items">
+            <span class="techstack-tag">Java</span>
+            <span class="techstack-tag">Spring Boot</span>
+            <span class="techstack-tag">Spring Cloud</span>
+            <span class="techstack-tag">Spring Security</span>
+            <span class="techstack-tag">GraphQL</span>
+            <span class="techstack-tag">Debezium</span>
+            <span class="techstack-tag">JPA / Hibernate</span>
+          </div>
         </div>
-        <div class="card-item decision-item">
-          <strong>CQRS 기반 복제 DB 설계</strong>
-          <p>각 서비스가 다른 서비스의 테이블을 직접 조회하지 않도록, 필요한 데이터만 서비스별 읽기 모델로 복제해 보관하는 구조를 적용했습니다. 원천 데이터 변경은 SQS와 NATS JetStream 이벤트로 전파하고, 구독 서비스가 자신의 복제 DB를 비동기로 갱신해 서비스 간 결합도를 낮췄습니다.</p>
+        <div class="techstack-card">
+          <div class="techstack-category">Frontend</div>
+          <div class="techstack-items">
+            <span class="techstack-tag">Next.js</span>
+            <span class="techstack-tag">React</span>
+            <span class="techstack-tag">TypeScript</span>
+            <span class="techstack-tag">Tailwind CSS</span>
+          </div>
         </div>
-        <div class="card-item decision-item">
-          <strong>하이브리드 클라우드 네트워크 분리</strong>
-          <p>AWS와 온프레미스 환경 사이의 통신 경로를 VPN으로 제한하고, 클라우드 서비스와 온프레미스 운영성 서비스의 책임을 분리했습니다. 장애가 한쪽 환경에 머물도록 배치하면서도 필요한 이벤트와 API 호출은 명확한 경로로만 오가도록 설계했습니다.</p>
+        <div class="techstack-card">
+          <div class="techstack-category">Infrastructure</div>
+          <div class="techstack-items">
+            <span class="techstack-tag">Kubernetes</span>
+            <span class="techstack-tag">VMware ESXi</span>
+            <span class="techstack-tag">Istio</span>
+            <span class="techstack-tag">Helm</span>
+            <span class="techstack-tag">pfSense</span>
+            <span class="techstack-tag">WireGuard</span>
+          </div>
+        </div>
+        <div class="techstack-card">
+          <div class="techstack-category">Cloud</div>
+          <div class="techstack-items">
+            <span class="techstack-tag">AWS EKS</span>
+            <span class="techstack-tag">AWS RDS (Aurora)</span>
+            <span class="techstack-tag">AWS ElastiCache</span>
+            <span class="techstack-tag">AWS SQS / SNS</span>
+            <span class="techstack-tag">AWS CloudFront</span>
+            <span class="techstack-tag">AWS S3</span>
+            <span class="techstack-tag">AWS WAF / Shield</span>
+          </div>
+        </div>
+        <div class="techstack-card">
+          <div class="techstack-category">DevOps</div>
+          <div class="techstack-items">
+            <span class="techstack-tag">Jenkins</span>
+            <span class="techstack-tag">Argo CD</span>
+            <span class="techstack-tag">SonarQube</span>
+            <span class="techstack-tag">Docker</span>
+            <span class="techstack-tag">GitHub</span>
+          </div>
+        </div>
+        <div class="techstack-card">
+          <div class="techstack-category">Monitoring</div>
+          <div class="techstack-items">
+            <span class="techstack-tag">Prometheus</span>
+            <span class="techstack-tag">Grafana</span>
+            <span class="techstack-tag">Grafana Faro</span>
+            <span class="techstack-tag">Grafana Alloy</span>
+            <span class="techstack-tag">Loki</span>
+            <span class="techstack-tag">Tempo</span>
+            <span class="techstack-tag">AlertManager</span>
+          </div>
+        </div>
+        <div class="techstack-card techstack-full">
+          <div class="techstack-category">AI</div>
+          <div class="techstack-items">
+            <span class="techstack-tag">AWS Bedrock</span>
+            <span class="techstack-tag">Claude</span>
+            <span class="techstack-tag">LangChain</span>
+            <span class="techstack-tag">Python</span>
+            <span class="techstack-tag">FastAPI</span>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section>
-      <h2>트러블슈팅</h2>
-      <div class="card-list">
-        <div class="card-item ts-item">
-          <strong>WireGuard 핸드셰이크 실패 및 터널 라우팅 블랙홀</strong>
-          <p>pfSense Peer에 클라이언트 공개키가 아닌 pfSense 공개키가 중복 등록되어 WireGuard 핸드셰이크가 성립하지 않았습니다. 이후 터널 대역과 내부망 대역이 섞이며 트래픽이 물리 어댑터로 새는 문제가 발생해, 터널 대역을 172.16.0.0/24로 분리하고 AllowedIPs를 재정의해 내부망 접근 경로를 WireGuard로 고정했습니다.</p>
-        </div>
-        <div class="card-item ts-item">
-          <strong>pfSense 정적 라우팅 잔존과 비대칭 라우팅</strong>
-          <p>과거 테스트용 정적 라우팅 레코드가 남아 WireGuard 트래픽이 LAN 인터페이스까지 도달하지 못하고 내부 라우팅 루프에서 드롭되었습니다. 잘못된 Static Route를 제거하고, 터널 대역에서 내부 LAN으로 나가는 트래픽은 pfSense LAN IP로 SNAT되도록 Outbound NAT를 구성해 ESXi의 리턴 패킷 경로를 안정화했습니다.</p>
-        </div>
-        <div class="card-item ts-item">
-          <strong>Nested ESXi 환경의 Windows SSH 접속 실패</strong>
-          <p>WireGuard에서 pfSense OPT1을 거쳐 10.0.2.x VM으로 SSH 접속할 때 Windows 클라이언트에서만 MAC 검증 오류와 Bad packet length가 발생했습니다. Packet Capture와 ssh -vvv로 경로 차이를 확인했고, LAN 대역 Jump Host를 통해 OPT1 NAT 경로를 우회하는 방식으로 팀원 접속을 복구했습니다.</p>
-        </div>
-        <div class="card-item ts-item">
-          <strong>HA Kubernetes 클러스터 Join 실패</strong>
-          <p>kubeadm init 시 control-plane-endpoint와 upload-certs 옵션이 누락되고, hostname 미설정, 서브넷 마스크 오설정, Kubernetes 버전 불일치가 겹치며 etcd health check와 control-plane join이 실패했습니다. 클러스터를 reset한 뒤 HA 필수 옵션을 포함해 재구성하고, hostname/IP/버전/서브넷을 통일해 control-plane과 worker join을 정상화했습니다.</p>
+  <!-- ══════════════════════════════════════════════
+       6. MY CONTRIBUTIONS
+       ══════════════════════════════════════════════ -->
+  <section class="section" id="contributions">
+    <div class="container">
+      <p class="section-label">My Contributions</p>
+      <h2 class="section-title">담당 영역</h2>
+      <p class="section-desc">프로젝트에서 직접 설계하고 구현한 영역을 정리했습니다.</p>
+
+      <!-- Backend -->
+      <div class="contrib-group">
+        <div class="contrib-group-title">Backend</div>
+        <div class="contrib-grid">
+          <div class="contrib-card">
+            <div class="contrib-card-name">Social Service</div>
+            <div class="contrib-card-what">금융 피드 CRUD, 좋아요/댓글, 팔로우 기능을 구현한 소셜 서비스를 설계하고 개발했습니다.</div>
+            <div class="contrib-card-why">소비 기록을 콘텐츠로 전환하여 사용자 간 공유와 상호작용을 가능하게 하기 위해 독립적인 소셜 서비스를 분리했습니다.</div>
+          </div>
+          <div class="contrib-card">
+            <div class="contrib-card-name">Alarm Service</div>
+            <div class="contrib-card-what">이벤트 기반 알림 처리 서비스를 구현하고, NATS JetStream을 통한 비동기 알림 파이프라인을 구축했습니다.</div>
+            <div class="contrib-card-why">주요 서비스의 처리 흐름에 알림 로직이 결합되지 않도록, 온프레미스에 독립 배치하여 서비스 간 결합도를 낮추었습니다.</div>
+          </div>
+          <div class="contrib-card">
+            <div class="contrib-card-name">GraphQL BFF</div>
+            <div class="contrib-card-what">프론트엔드와 백엔드 사이에 GraphQL BFF(Backend for Frontend) 레이어를 설계하고 구현했습니다.</div>
+            <div class="contrib-card-why">프론트엔드의 다양한 데이터 요구를 하나의 진입점으로 통합하고, 여러 마이크로서비스 호출을 BFF에서 조합하여 클라이언트 복잡도를 줄이기
+              위함입니다.</div>
+          </div>
+          <div class="contrib-card">
+            <div class="contrib-card-name">CDC (Change Data Capture)</div>
+            <div class="contrib-card-what">Debezium을 활용한 CDC 파이프라인을 구축하고, CQRS 읽기 모델 동기화를 구현했습니다.</div>
+            <div class="contrib-card-why">서비스 간 직접 DB 접근 없이 데이터 변경을 전파하여, Database-per-service 원칙을 유지하면서도 필요한 데이터를 조회할 수
+              있도록 했습니다.</div>
+          </div>
         </div>
       </div>
-    </section>
 
+      <!-- Infrastructure -->
+      <div class="contrib-group">
+        <div class="contrib-group-title">Infrastructure</div>
+        <div class="contrib-grid">
+          <div class="contrib-card">
+            <div class="contrib-card-name">AWS CloudFront + S3</div>
+            <div class="contrib-card-what">정적 자산 배포를 위한 CloudFront + S3 파이프라인을 구성하고, 캐시 무효화 자동화를 설정했습니다.</div>
+            <div class="contrib-card-why">프론트엔드 빌드 결과물을 CDN으로 제공하여 응답 속도를 개선하고, EKS 클러스터의 정적 파일 서빙 부담을 제거하기 위함입니다.</div>
+          </div>
+          <div class="contrib-card">
+            <div class="contrib-card-name">pfSense / WireGuard</div>
+            <div class="contrib-card-what">pfSense 방화벽과 WireGuard VPN을 통한 Site-to-Site 터널을 구성하고, 접근 제어 정책을 설계했습니다.</div>
+            <div class="contrib-card-why">AWS와 온프레미스 간 보안 통신 경로를 확보하고, 팀원들의 내부망 접속 환경을 제공하기 위함입니다.</div>
+          </div>
+
+          <div class="contrib-card">
+            <div class="contrib-card-name">Jenkins Agent</div>
+            <div class="contrib-card-what">온프레미스 Jenkins Agent를 Kubernetes Pod로 동적 프로비저닝하도록 구성했습니다.</div>
+            <div class="contrib-card-why">빌드 요청에 따라 Agent가 자동 생성·삭제되어 리소스를 효율적으로 사용하고, 빌드 환경 일관성을 보장하기 위함입니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Monitoring -->
+      <div class="contrib-group">
+        <div class="contrib-group-title">Monitoring</div>
+        <div class="contrib-grid">
+          <div class="contrib-card">
+            <div class="contrib-card-name">Grafana Faro</div>
+            <div class="contrib-card-what">프론트엔드 RUM(Real User Monitoring) 수집을 위해 Grafana Faro SDK를 통합하고, 사용자 세션 추적
+              대시보드를 구성했습니다.</div>
+            <div class="contrib-card-why">서버 메트릭만으로는 파악하기 어려운 프론트엔드 성능 병목과 사용자 경험 이슈를 가시화하기 위함입니다.</div>
+          </div>
+          <div class="contrib-card">
+            <div class="contrib-card-name">CDC Metrics</div>
+            <div class="contrib-card-what">NATS JetStream 파이프라인의 지연 시간, 처리량, 오류율을 수집하는 커스텀 메트릭과 대시보드를 구성했습니다.</div>
+            <div class="contrib-card-why">CDC 파이프라인 장애를 사전에 감지하고, 데이터 동기화 지연을 모니터링하여 CQRS 읽기 모델의 정합성을 보장하기 위함입니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DevOps -->
+      <div class="contrib-group">
+        <div class="contrib-group-title">DevOps</div>
+        <div class="contrib-grid">
+          <div class="contrib-card">
+            <div class="contrib-card-name">Jenkins Pipeline</div>
+            <div class="contrib-card-what">멀티 브랜치 Jenkins Pipeline을 설계하고, 빌드·테스트·이미지 빌드·배포까지의 전체 CI/CD 흐름을 구축했습니다.</div>
+            <div class="contrib-card-why">수동 배포로 인한 휴먼 에러를 제거하고, 코드 변경부터 운영 환경 반영까지의 리드 타임을 단축하기 위함입니다.</div>
+          </div>
+          <div class="contrib-card">
+            <div class="contrib-card-name">SonarQube</div>
+            <div class="contrib-card-what">SonarQube를 CI 파이프라인에 통합하여 코드 품질 게이트를 구성하고, 정적 분석 결과를 PR에 자동 리포팅하도록 설정했습니다.
+            </div>
+            <div class="contrib-card-why">코드 리뷰 전에 정적 분석을 통해 잠재적 버그와 코드 스멜을 자동으로 탐지하여 코드 품질을 일관되게 유지하기 위함입니다.</div>
+          </div>
+          <div class="contrib-card">
+            <div class="contrib-card-name">LLM-as-a-Judge</div>
+            <div class="contrib-card-what">Jenkins CI 환경에 LLM-as-a-Judge 기반 자동 평가를 도입하여, LLM 응답 품질이 기준 점수 미달 시 배포를 차단하도록
+              구축했습니다.</div>
+            <div class="contrib-card-why">LLM 프롬프트 변경이나 모델 업데이트로 인한 예상치 못한 서비스 품질 저하 문제를 사전에 방지하기 위함입니다.</div>
+          </div>
+          <div class="contrib-card">
+            <div class="contrib-card-name">CI/CD 설계</div>
+            <div class="contrib-card-what">Jenkins(CI) → Argo CD(CD)로 이어지는 GitOps 기반 배포 파이프라인을 설계하고, 카나리 배포 전략을 적용했습니다.
+            </div>
+            <div class="contrib-card-why">배포 안정성을 확보하고, 문제 발생 시 빠른 롤백이 가능한 구조를 통해 서비스 가용성을 유지하기 위함입니다.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       7. REPOSITORY STRUCTURE
+       ══════════════════════════════════════════════ -->
+  <section class="section" id="repository">
+    <div class="container">
+      <p class="section-label">Service Architecture</p>
+      <h2 class="section-title">서비스 아키텍처</h2>
+      <p class="section-desc">
+        Frontend부터 각 마이크로서비스, CDC, 데이터베이스까지의 전체 서비스 흐름을 나타낸 구조입니다.
+      </p>
+
+      <div class="arch-image-wrapper" data-lightbox>
+        <img src="images/moneylog/repository-structure.png" alt="서비스별 Repository 구조"
+          onerror="this.outerHTML='<div class=\'img-placeholder\' style=\'padding:4rem 2rem;text-align:center;color:#94a3b8;\'><span style=\'font-size:2.5rem;display:block;margin-bottom:0.5rem\'>📂</span>images/moneylog/repository-structure.png</div>'" />
+      </div>
+      <p class="arch-caption">이미지를 클릭하면 확대됩니다</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       8. PROBLEM SOLVING (Accordion)
+       ══════════════════════════════════════════════ -->
+  <section class="section" id="problem-solving">
+    <div class="container">
+      <p class="section-label">Problem Solving</p>
+      <h2 class="section-title">문제 해결</h2>
+      <p class="section-desc">프로젝트를 진행하며 마주한 기술적 문제와 해결 과정을 정리했습니다.</p>
+
+      <div class="accordion-list">
+
+
+        <!-- Dual Write -->
+        <details class="accordion-item">
+          <summary>Dual Write 문제 해결</summary>
+          <div class="accordion-body">
+            <div class="accordion-placeholder">
+              <div class="ph-section">
+                <div class="ph-label">Problem</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">MSA 환경에서 로컬 DB 트랜잭션을 커밋한 후 다른
+                  서비스로 <strong>이벤트를 발행(Event Publish)하는
+                    두 가지 작업을 원자적으로 보장할 수 없는 'Dual Write' 문제</strong>에 직면했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Background</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">MoneyLog는 사용자의 결제 및 소비 내역을 금융 피드로
+                  공유하는 서비스이기 때문에 거래 내역이 저장되면 곧바로 피드 서비스로 이벤트를 전파해야 했습니다.<br>초기에는 애플리케이션 레벨에서 로컬 DB에 커밋한 직후 <strong>AWS
+                    SQS에 이벤트를 발행하도록 구현</strong>했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Cause</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">로컬 DB 커밋은 성공했으나 네트워크 지연이나 브로커 장애로
+                  인해 메시지 발행에 실패할 경우, <strong>서비스 간 데이터 불일치</strong>가 발생하는 문제가 있었고, 반대로 메시지를 먼저 발행하고 DB에 커밋할 경우,
+                  <strong>DB 커밋이 실패하면 다른 서비스에 잘못된 데이터가 전파</strong>되는 치명적인 문제가 발생할 수 있었습니다.
+                </div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Alternatives Considered</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">가장 먼저 <strong>Outbox 패턴</strong>을
+                  고려했습니다. 하지만 Polling 주기에 따른 <strong>지연 시간과 DB 부하 증가</strong>가 우려되었고, 실시간 피드 업데이트가 중요한
+                  도메인 특성상 적합하지 않다고 판단했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Why This Solution</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">최종적으로 <strong>NATS JetStream을 활용한
+                    Event-Driven 아키텍처</strong>를 선택했습니다.<br>트랜잭션 완료 후 NATS JetStream을 통해 즉시 이벤트를 발행하므로
+                  <strong>애플리케이션 비즈니스 로직과 이벤트 발행 로직을 완전히 분리</strong>할 수 있습니다.<br>또한 Polling 방식이 아니므로 실시간성이 높고 추가적인 부하를
+                  주지 않을 수 있었습니다.
+                </div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Implementation</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;"><strong>NATS JetStream 기반의 Event
+                    Publisher</strong>를 배포했습니다.<br>소비 내역이 기록되면 즉시 NATS JetStream 스트림으로 이벤트를 발행하고, 피드 서비스는 <strong>CQRS
+                    패턴의 읽기 모델을 동기화</strong>하기 위해 해당 스트림을 구독하여 실시간으로 피드 데이터를 업데이트하도록 파이프라인을 구축했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Result</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">애플리케이션 장애나 네트워크 단절 시에도 데이터베이스의
+                  로그를 기반으로 이벤트를 발행하므로 <strong>메시지 유실을 없앨 수 있었습니다.</strong><br>결과적으로 서비스 간 데이터 정합성을 완벽하게
+                  보장하면서도 <strong>피드 업데이트의 지연 시간을 최소화</strong>할 수 있었습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Lessons Learned</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">분산 시스템에서 '데이터 정합성 보장'이 얼마나 까다롭고
+                  중요한 과제인지 체감했습니다.<br>Event-Driven 아키텍처를 설계할 때는 <strong>항상 시스템의 부분적 실패를
+                    염두에 두어야 함</strong>을 깨달았습니다.<br>데이터 신뢰성을 이벤트 스트리밍 레벨에서 보장하는 방식이 비즈니스 로직을 얼마나 간결하게 만들어주는지 깊이 이해하게
+                  되었습니다.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- GraphQL BFF -->
+        <details class="accordion-item">
+          <summary>GraphQL BFF 도입과 설계</summary>
+          <div class="accordion-body">
+            <div class="accordion-placeholder">
+              <div class="ph-section">
+                <div class="ph-label">Problem</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">MSA 환경에서 프론트엔드가 화면을 렌더링하기 위해 수많은
+                  개별 마이크로서비스(유저, 결제, 피드, 혜택 등)를 <strong>직접 호출해야 하는 Over-fetching과 Under-fetching 문제</strong>가 발생했습니다.
+                </div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Background</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">클라이언트가 직접 각 서비스를 호출하게 되면서 네트워크 통신
+                  횟수가 급증하였고, 리스트 뷰를 구성할 때 다건의 데이터를 반복적으로 조회하는 과정에서 <strong>N+1 문제</strong>가 발생하여 화면 로딩 속도가 크게
+                  저하되었습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Cause</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">각 마이크로서비스는 자신의 도메인에 속한
+                  API만 제공하기 때문에, <strong>UI에서 요구하는 복합적인 데이터를 한 번에 제공하지 못했습니다.</strong><br>결국 프론트엔드가 필요한 데이터를 조립하기 위해 API
+                  Aggregation 로직을 떠안게 된 것이 주된 원인이었습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Alternatives Considered</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">REST API 기반의 <strong>API
+                    Gateway에서 Aggregation</strong>을 수행하거나 전용 BFF(Backend For Frontend) 서버를 두는 방안을 검토했습니다.<br>그러나 REST
+                  API 방식은 화면 요구사항이 변경될 때마다 BFF의 API 응답 구조도 함께 수정해야 하는 <strong>강한 결합</strong> 문제가 존재했습니다.
+                </div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Why This Solution</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">이러한 한계를 극복하기 위해 <strong>GraphQL
+                    기반의 BFF</strong>를 도입했습니다.<br>GraphQL은 클라이언트가 <strong>필요한 데이터만 쿼리</strong>할 수 있는 유연성을 제공하며, 여러 서비스의
+                  데이터를 한 번의 요청으로 Aggregation 할 수 있어 통신 효율을 극대화할 수 있었기 때문입니다.<br>기술 스택으로는 클라이언트와 백엔드 간의 효율적인 통신이 가능한
+                  GraphQL을 선택했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Implementation</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">GraphQL 스키마를 정의하고 GraphQL
+                  Resolver를 통해 데이터를 매핑했습니다.<br>특히 <strong>N+1 문제를 근본적으로 해결하기 위해 DataLoader 패턴을 적극
+                    도입</strong>했습니다.<br>개별적인 조회 요청들을 모아 하위 서비스에 <strong>Bulk Query를 날리도록 설계</strong>하여 병목 현상을
+                  제거했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Result</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">프론트엔드의 <strong>네트워크 요청 횟수가 획기적으로
+                    감소</strong>했고, 필요한 데이터만 전송받아 페이로드 크기가 대폭 줄어들었습니다.<br>DataLoader 적용을 통해 백엔드 내부 통신에서 발생하던 <strong>N+1
+                    문제를 해소</strong>하여, 전반적인 API 응답 속도와 사용자 체감 성능을 크게 개선했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Lessons Learned</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">GraphQL은 유연성을 제공하지만 <strong>쿼리
+                    최적화 없이 사용하면 오히려 백엔드에 부하</strong>를 줄 수 있다는 점을 배웠습니다.<br>DataLoader를 활용한 Batch 처리의 중요성을 깨달았으며, 백엔드와
+                  프론트엔드 간의 효율적인 <strong>'데이터 계약' 설계</strong>가 서비스 성능에 얼마나 큰 영향을 미치는지 체감했습니다.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Canary Deployment -->
+        <details class="accordion-item">
+          <summary>Canary Deployment 전략</summary>
+          <div class="accordion-body">
+            <div class="accordion-placeholder">
+              <div class="ph-section">
+                <div class="ph-label">Problem</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">기존 배포 방식에서는 새로운 버전의 애플리케이션을 배포할
+                  때, <strong>문제가 포함되어 있을 경우 전체 사용자가 장애에 즉각적으로 노출되는 리스크</strong>가 존재했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Background</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">초기에는 쿠버네티스의 기본 Rolling Update 방식을
+                  사용하여 배포를 진행했습니다.<br>이 방식은 무중단 배포를 지원하지만, <strong>트래픽을 세밀하게 제어할 수 없어</strong> 신규 버전에 트래픽이 인입되는 순간부터 예상치
+                  못한 이슈가 전체 서비스로 확산될 수 있었습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Cause</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">Rolling Update는 <strong>Pod 개수
+                    기준으로 점진적 교체를 수행</strong>할 뿐, 실제 인입되는 네트워크 트래픽의 비율은 제어하지 못했습니다.<br>이로 인해 문제 발생 시 <strong>이전 버전으로
+                    롤백하는 데에도 긴 시간이 소요</strong>되어 장애 시간이 길어지는 원인이 되었습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Alternatives Considered</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;"><strong>Istio와 같은 Service
+                    Mesh</strong>를 활용하여 트래픽의 흐름을 네트워크 레이어에서 제어하는 방안을 검토했습니다.<br>이 과정에서 버전을 스위칭하는 <strong>Blue/Green 배포
+                    방식</strong>도 고려했으나, 인프라 리소스를 2배로 유지해야 하는 비용적 부담이 컸습니다.<br>결과적으로 Istio의 세밀한 라우팅
+                  기능을 활용해 리소스 효율성을 챙기면서도 배포 안정성을 높이는 방법이 필요했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Why This Solution</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">소수의 트래픽만 신규 버전에 흘려보내어 점진적으로 안전성을
+                  검증하는 <strong>Canary Deployment 전략</strong>을 선택했습니다.<br>이를 구현하기 위해 트래픽 라우팅을 정밀하게 제어할 수 있는
+                  <strong>Istio</strong>와 배포 자동화를 지원하는 <strong>Argo Rollouts</strong>를 결합하여 아키텍처를 구성했습니다.
+                </div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Implementation</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">Argo Rollouts의 Rollout 리소스를 정의하고
+                  <strong>Istio의 VirtualService를 연동</strong>했습니다.<br>새 버전 배포 시 트래픽의 10%만 Canary 파드로 라우팅하고, 일정 시간 동안 에러율
+                  등 메트릭을 관찰한 후 <strong>이상이 없으면 50%, 100%로 점진적 승격</strong>을 진행하도록 파이프라인을
+                  자동화했습니다.
+                </div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Result</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">신규 배포된 버전에 치명적인 버그가 있더라도
+                  <strong>최대 10%의 사용자에게만 영향을 미치게 되며</strong>, 즉각적으로 이전 버전으로 100% 트래픽을 원복시키는 롤백이 가능해졌습니다.<br>이를
+                  통해 운영 환경의 <strong>배포 리스크를 획기적으로 낮출 수 있었습니다.</strong>
+                </div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Lessons Learned</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">무중단 배포를 넘어 <strong>'안전한 배포'
+                    파이프라인을 갖추는 것</strong>이 서비스 신뢰성에 얼마나 기여하는지 배웠습니다.<br>단순히 코드를 서버에 올리는 것을 넘어 트래픽 제어, 모니터링, 자동 롤백을 하나로
+                  엮는 <strong>운영 노하우</strong>를 습득했습니다.</div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Alert Fatigue -->
+        <details class="accordion-item">
+          <summary>Alert Fatigue 해결</summary>
+          <div class="accordion-body">
+            <div class="accordion-placeholder">
+              <div class="ph-section">
+                <div class="ph-label">Problem</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">모니터링 시스템 구축 후, 하루에도 수십 건씩 발생하는 의미
+                  없는 경고 알람으로 인해 정작 <strong>중요한 장애 알람을 놓칠 뻔하는 '알림 피로' 문제</strong>가 발생했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Background</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">초기에는 Prometheus와 AlertManager를
+                  도입하면서, CPU나 메모리 사용률이 일시적으로 상승하는 <strong>단순 임계치 초과 이벤트에도 모두 Slack 알람이 발생</strong>하도록 기본 설정 위주로 룰을
+                  구성했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Cause</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">사용자에게 영향을 주지 않는 <strong>단순 인프라
+                    메트릭(예: 순간적인 CPU 스파이크)의 변화까지 경보의 대상</strong>으로 삼았기 때문입니다.<br>알람이 너무 빈번하게 울리자 개발 팀 내에서 경보에 대한 민감도가
+                  떨어지고, 실제 중요한 알람마저 무시하게 되는 <strong>알림 피로 현상</strong>이 발생했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Alternatives Considered</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">단순히 알람의 발생 임계치를 높이거나
+                  지속 시간을 늘리는 방법을 고려했습니다.<br>하지만 이는 일시적인 미봉책일 뿐, <strong>실제 서비스 품질 저하를 조기에 감지하지 못하게 만드는
+                    부작용</strong>이 있었습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Why This Solution</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">결국 인프라 중심의 모니터링에서 <strong>사용자 중심의
+                    모니터링으로 관점을 전환</strong>했습니다.<br><strong>SLI/SLO 기반</strong>으로 알람 체계를 전면 재설계하고, <strong>RED
+                    Metrics</strong>를 활용하여 실제 서비스에 영향이 있을 때만 알람을 보내도록 구조를 개편했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Implementation</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">CPU나 메모리 단일 지표 알람을 대폭 줄이고, 대신
+                  <strong>'API 에러율 급증(Errors)', '응답 지연 시간 임계치 초과(Duration)'</strong>와 같이 실제 사용자 경험과 직결된 RED 메트릭 기반의
+                  Prometheus Alerting Rule을 작성했습니다.<br>또한 AlertManager의 <strong>그룹화와 억제 기능</strong>을 활용해 중복 알람을 병합했습니다.
+                </div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Result</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">불필요한 노이즈 알람이 <strong>90% 이상
+                    감소</strong>하였고, 개발자는 알람이 발생했을 때 이것이 <strong>실제 조치가 필요한 크리티컬한 장애임을 즉각적으로 신뢰</strong>할 수 있게
+                  되었습니다.<br>결과적으로 피로도가 줄어들고 운영 효율성이 크게 향상되었습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Lessons Learned</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">모니터링은 단순히 데이터를 수집하는 것이 아니라
+                  <strong>'실제로 대응할 수 있는 인사이트를 도출'하는 것</strong>이 핵심임을 배웠습니다.<br>알람 설정 시 항상 <strong>"이 알람이 울리면 지금 당장
+                    자다가 깨서 대응해야 하는가?"</strong>라는 질문을 바탕으로 SRE 관점의 운영 마인드를 갖추게 되었습니다.
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- LLM-as-a-Judge -->
+        <details class="accordion-item">
+          <summary>LLM-as-a-Judge 기반 응답 품질 평가</summary>
+          <div class="accordion-body">
+            <div class="accordion-placeholder">
+              <div class="ph-section">
+                <div class="ph-label">Problem</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">생성형 AI를 활용하는 기능에서, 프롬프트를 수정하거나
+                  LLM 파라미터를 튜닝할 때마다 <strong>AI의 응답 품질이 개선되었는지 혹은 의도치 않게 저하되었는지 정량적으로 검증</strong>하기가 매우 어려웠습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Background</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">MoneyLog는 사용자의 소비 내역을 분석하여 AI
+                  리포트를 제공합니다.<br>더 나은 리포트를 생성하기 위해 프롬프트를 지속적으로 개선해야 했으나, <strong>비결정론적인 LLM
+                    특성상</strong> 기존의 단위 테스트 방식으로는 텍스트의 유용성이나 정확도를 일관되게 평가할 수 없었습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Cause</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">사람이 직접 다수의 테스트 케이스를 눈으로 확인하며 평가하는
+                  방식(Human Evaluation)에 전적으로 의존하고 있었습니다.<br>이는 <strong>시간이 오래 걸리고 평가자의 주관이 개입되며, 배포 프로세스의 심각한
+                    병목의 원인</strong>이 되었습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Alternatives Considered</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">정규표현식이나 키워드 매칭 기반의 룰 기반 평가를
+                  시도했습니다.<br>하지만 생성형 텍스트의 <strong>다양한 변주를 모두 포괄할 수 없었고</strong>, 문맥이나 논리적 일관성을 평가하는 데에는 한계가 명확했습니다.
+                </div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Why This Solution</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">보다 강력한 성능을 가진 상위 버전의 LLM(예:
+                  GPT-4)을 평가자로 사용하여 생성된 응답의 품질을 채점하는 <strong>LLM-as-a-Judge 기법을 도입</strong>하기로 결정했습니다.<br>인간과 유사한 수준의 맥락
+                  이해를 바탕으로 자동화된 정량 평가가 가능해졌기 때문입니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Implementation</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">테스트 데이터셋에 대해 AI가 답변을 생성하면, 평가용
+                  LLM 모델이 <strong>'일관성', '유용성', '가독성' 기준에 따라 점수(1~5점)를 매기는 평가 파이프라인</strong>을 구축했습니다.<br>이를 Jenkins CI
+                  단계에 연동하여, 평균 점수가 기준치(예: 70점) 미만일 경우 <strong>배포를 자동으로 차단</strong>하도록 파이프라인을 구성했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Result</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">사람의 개입 없이 <strong>CI 파이프라인에서 수십
+                    개의 테스트 케이스를 몇 분 만에 자동으로 평가</strong>할 수 있게 되었습니다.<br>배포 속도가 비약적으로 상승했고, 의도치 않은 프롬프트 성능
+                  저하를 안전하게 방어하여 <strong>운영 환경의 AI 서비스 품질을 보장</strong>했습니다.</div>
+              </div>
+              <div class="ph-section">
+                <div class="ph-label">Lessons Learned</div>
+                <div style="font-size: 0.95rem; color: var(--text); line-height: 1.6;">전통적인 소프트웨어 테스트와 AI
+                  애플리케이션의 테스트는 <strong>접근 방식이 완전히 달라야 함</strong>을 깨달았습니다.<br>AI 서비스의 신뢰성을 확보하기 위해서는 개발 환경뿐만 아니라
+                  <strong>파이프라인과 운영 환경 전반에 걸친 지속적인 평가 체계 구축</strong>이 필수적이라는 것을 배웠습니다.
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       9. DEVOPS & MONITORING
+       ══════════════════════════════════════════════ -->
+  <section class="section" id="devops">
+    <div class="container">
+      <p class="section-label">DevOps & Monitoring</p>
+      <h2 class="section-title">운영 환경</h2>
+      <p class="section-desc">CI/CD 파이프라인, 모니터링, 코드 품질 관리 등 운영 환경의 주요 구성 요소입니다.</p>
+
+      <div class="devops-grid">
+        <!-- Grafana Dashboard -->
+        <div class="devops-card">
+          <div class="devops-card-image" data-lightbox>
+            <img src="images/moneylog/grafana.gif" alt="Grafana Dashboard"
+              onerror="this.outerHTML='<div class=\'img-placeholder\'><span>📊</span>images/moneylog/grafana.gif</div>'" />
+          </div>
+          <div class="devops-card-body">
+            <div class="devops-card-title">Grafana Dashboard</div>
+            <div class="devops-card-desc">
+              Prometheus 메트릭, Loki 로그, Tempo 트레이스를 통합한 Grafana 대시보드입니다.
+              서비스별 요청률, 에러율, 레이턴시(RED Metrics)를 실시간으로 모니터링하고,
+              Grafana Faro를 통해 프론트엔드 사용자 경험 지표도 함께 확인했습니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- SonarQube -->
+        <div class="devops-card">
+          <div class="devops-card-image" data-lightbox>
+            <img src="images/moneylog/sonarqube.png" alt="SonarQube Dashboard"
+              onerror="this.outerHTML='<div class=\'img-placeholder\'><span>🔍</span>images/moneylog/sonarqube.png</div>'" />
+          </div>
+          <div class="devops-card-body">
+            <div class="devops-card-title">SonarQube</div>
+            <div class="devops-card-desc">
+              Jenkins CI 파이프라인에 통합된 SonarQube 정적 분석 결과입니다.
+              코드 커버리지, 코드 스멜, 보안 취약점을 자동으로 검사하고,
+              품질 게이트 통과 여부에 따라 배포 파이프라인의 진행을 제어합니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- LLM Evaluation -->
+        <div class="devops-card">
+          <div class="devops-card-image" data-lightbox>
+            <img src="images/moneylog/llm-eval.png" alt="LLM Evaluation Dashboard"
+              onerror="this.outerHTML='<div class=\'img-placeholder\'><span>🤖</span>images/moneylog/llm-eval.png</div>'" />
+          </div>
+          <div class="devops-card-body">
+            <div class="devops-card-title">LLM Evaluation</div>
+            <div class="devops-card-desc">
+              LLM-as-a-Judge 기반 서비스 품질 자동 평가 시스템의 결과입니다.
+              LLM 응답의 일관성, 유용성 등을 CI 단계에서 평가하고,
+              기준 점수 미달 시 배포를 차단하여 운영 환경의 품질을 보장했습니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Stream Dashboard -->
+        <div class="devops-card">
+          <div class="devops-card-image" data-lightbox>
+            <img src="images/moneylog/cdc-dashboard.png" alt="Event Stream Dashboard"
+              onerror="this.outerHTML='<div class=\'img-placeholder\'><span>🔄</span>images/moneylog/cdc-dashboard.png</div>'" />
+          </div>
+          <div class="devops-card-body">
+            <div class="devops-card-title">Event Stream Dashboard</div>
+            <div class="devops-card-desc">
+              NATS JetStream 파이프라인의 운영 상태를 보여주는 대시보드입니다.
+              데이터 변경 이벤트의 처리량, 지연 시간, 오류율을 실시간으로 모니터링하고,
+              CQRS 읽기 모델의 데이터 정합성 상태를 모니터링했습니다.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════
+       11. RETROSPECTIVE
+       ══════════════════════════════════════════════ -->
+  <section class="section" id="retrospective">
+    <div class="container">
+      <p class="section-label">Retrospective</p>
+      <h2 class="section-title">프로젝트 회고</h2>
+
+      <div class="retro-grid">
+        <div class="retro-card">
+          <div class="retro-card-title">배운 점</div>
+          <div class="retro-card-text">
+            <ul>
+              <li><strong>MSA 설계 및 하이브리드 클라우드 운영:</strong><br>EKS와 온프레미스 VMware 환경을 넘나들며 시스템을 설계하면서, <strong>분산 환경에서의
+                  네트워크 토폴로지와 보안 아키텍처</strong>를 깊이 이해하게 되었습니다.</li>
+              <li><strong>데이터 정합성 및 이벤트 주도 구조(EDA):</strong><br>서비스 간 분리된 데이터베이스 환경에서 발생할 수 있는 문제들을 <strong>NATS
+                  JetStream 기반의 비동기 메시징과 CQRS 패턴</strong>을 도입하여 실질적으로 해결하는 경험을 쌓았습니다.</li>
+              <li><strong>Observability 기반의 DevOps 파이프라인:</strong><br>단순히 코드를 배포하는 것을 넘어, <strong>Prometheus RED Metrics
+                  기반의 견고한 모니터링 환경</strong>을 구축하고 Argo Rollouts을 통한 안전한 Canary 배포를 구현하며 SRE 관점의 운영 노하우를 체득했습니다.</li>
+              <li><strong>AI 기반 서비스 운영 (LLMOps):</strong><br><strong>LLM-as-a-Judge 파이프라인을 CI에 통합</strong>하여, 비결정론적인 생성형
+                AI 서비스의 품질을 자동화된 방식으로 정량 평가하고 배포 안정성을 확보하는 방안을 터득했습니다.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="retro-card">
+          <div class="retro-card-title">아쉬운 점</div>
+          <div class="retro-card-text">
+            <ul>
+              <li><strong>물리 장비 한계로 인한 고가용성(HA/FT) 구성 제약:</strong><br>MSA 복잡성과 트래픽 확장에 대비하기 위해 무중단 배포와 오토스케일링(HPA) 등을
+                구성했으나, <strong>온프레미스 인프라를 구성하는 물리 장비 리소스의 한계</strong>로 인해 완전한 Fault Tolerance(FT) 및 데이터베이스 고가용성(HA)
+                클러스터를 구성하지 못했습니다.</li>
+              <li>특히 장애 발생 시의 <strong>장애 조치(Failover) 시나리오를 물리적으로 완벽하게 검증하지 못한 것</strong>이 큰 아쉬움으로 남습니다.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="retro-card">
+          <div class="retro-card-title">향후 개선</div>
+          <div class="retro-card-text">
+            <ul>
+              <li><strong>인프라 운영 경험 확장과 HA/FT 검증:</strong><br>MoneyLog 프로젝트에서는 물리 장비 제약이 있었으나, 현재 진행 중인 OpenStack 기반
+                Private Cloud 구축 프로젝트를 통해 <strong>다양한 가상화 플랫폼 위에서 리소스 제약을 극복하는 경험</strong>을 확장하고 있습니다.</li>
+              <li>이를 바탕으로 Kubernetes 환경과 분산 데이터베이스 환경을 다시 구축하고, <strong>완벽한 HA/FT 아키텍처를 설계</strong>하여 노드 장애나 네트워크 단절
+                시나리오에서도 <strong>서비스 가용성을 100% 보장하는 견고한 인프라 운영 역량</strong>을 갖추고자 합니다.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer class="page-footer">
+    <div class="container">
+      © 2026 주용완 — MoneyLog Project Detail
+    </div>
+  </footer>
+
+  <!-- ── Lightbox Overlay ── -->
+  <div class="lightbox-overlay" id="lightbox">
+    <button class="lightbox-close" id="lightbox-close">&times;</button>
+    <img src="" alt="확대 이미지" id="lightbox-img" />
   </div>
 
-  <footer style="text-align: center; padding: 4rem 0; color: var(--text-muted); font-size: 0.8rem;">
-    © 2026 주용완 — MoneyLog Project Detail
-  </footer>
+  <!-- ── Scripts ── -->
+  <script>
+    // ── Lightbox ──
+    (function () {
+      const overlay = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      const lbClose = document.getElementById('lightbox-close');
+
+      document.querySelectorAll('[data-lightbox]').forEach(function (el) {
+        el.addEventListener('click', function (e) {
+          const img = el.querySelector('img');
+          if (!img) return;
+          lbImg.src = img.src;
+          lbImg.alt = img.alt;
+          overlay.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+
+      function closeLightbox() {
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+        lbImg.src = '';
+      }
+
+      overlay.addEventListener('click', function (e) {
+        if (e.target === overlay || e.target === lbClose) closeLightbox();
+      });
+
+      lbClose.addEventListener('click', closeLightbox);
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeLightbox();
+      });
+    })();
+
+    // ── Code Tabs ──
+    (function () {
+      const btns = document.querySelectorAll('.code-tab-btn');
+      const panels = document.querySelectorAll('.code-tab-panel');
+
+      btns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          btns.forEach(function (b) { b.classList.remove('active'); });
+          panels.forEach(function (p) { p.classList.remove('active'); });
+          btn.classList.add('active');
+          document.getElementById(btn.dataset.tab).classList.add('active');
+        });
+      });
+    })();
+
+    // ── Nav Active State (Intersection Observer) ──
+    (function () {
+      var navLinks = document.querySelectorAll('.nav-links a');
+      var sections = [];
+
+      navLinks.forEach(function (link) {
+        var id = link.getAttribute('href').replace('#', '');
+        var section = document.getElementById(id);
+        if (section) sections.push({ id: id, el: section });
+      });
+
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            navLinks.forEach(function (l) { l.classList.remove('active'); });
+            var active = document.querySelector('.nav-links a[href="#' + entry.target.id + '"]');
+            if (active) active.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-20% 0px -75% 0px' });
+
+      sections.forEach(function (s) { observer.observe(s.el); });
+    })();
+  </script>
 
 </body>
 
