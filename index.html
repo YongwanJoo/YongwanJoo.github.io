@@ -238,6 +238,24 @@
       border-radius: 12px;
       overflow: hidden;
       transition: transform 0.2s, box-shadow 0.2s;
+      display: block;
+      text-decoration: none;
+      color: var(--text);
+      position: relative;
+    }
+
+    .full-card-link {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 1;
+    }
+
+    .project-links-row {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      position: relative;
+      z-index: 2;
     }
 
     .project-card:hover {
@@ -587,6 +605,7 @@
 
         <!-- MoneyLog -->
         <div class="project-card">
+          <a href="moneylog.html" target="_blank" class="full-card-link"></a>
           <div class="project-card-image">
             <img src="images/moneylog_architecture.png" alt="MoneyLog Architecture">
           </div>
@@ -600,12 +619,16 @@
             <div class="project-tags">
               <span class="tag">Java</span><span class="tag">Spring Boot</span><span class="tag">AWS EKS</span><span class="tag">Kubernetes</span><span class="tag">VMware</span><span class="tag">Jenkins</span>
             </div>
-            <a href="moneylog.html" class="project-link" target="_blank">MoneyLog project detail ↗</a>
+            <div class="project-links-row">
+              <span class="project-link">MoneyLog project detail ↗</span>
+              <a href="https://github.com/5kstration" class="project-link" target="_blank">GitHub ↗</a>
+            </div>
           </div>
         </div>
 
         <!-- VMware -->
         <div class="project-card">
+          <a href="vmware.html" target="_blank" class="full-card-link"></a>
           <div class="project-card-image">
             <img src="images/vmware.png" alt="VMware Architecture">
           </div>
@@ -619,12 +642,16 @@
             <div class="project-tags">
               <span class="tag">VMware ESXi</span><span class="tag">vCenter</span><span class="tag">iSCSI</span><span class="tag">HA/FT</span>
             </div>
-            <a href="vmware.html" class="project-link" target="_blank">VMware project detail ↗</a>
+            <div class="project-links-row">
+              <span class="project-link">VMware project detail ↗</span>
+              <a href="https://github.com/FISA-VMware-Team2/VMware-proj" class="project-link" target="_blank">GitHub ↗</a>
+            </div>
           </div>
         </div>
 
         <!-- DKaffeine -->
         <div class="project-card">
+          <a href="rag.html" target="_blank" class="full-card-link"></a>
           <div class="project-card-image">
             <img src="images/rag.png" alt="DKaffeine Architecture">
           </div>
@@ -638,7 +665,10 @@
             <div class="project-tags">
               <span class="tag">Python</span><span class="tag">LangChain</span><span class="tag">Celery</span><span class="tag">Redis</span>
             </div>
-            <a href="rag.html" class="project-link" target="_blank">DKaffeine project detail ↗</a>
+            <div class="project-links-row">
+              <span class="project-link">DKaffeine project detail ↗</span>
+              <a href="https://github.com/YongwanJoo/DKaffeine-Chatbot" class="project-link" target="_blank">GitHub ↗</a>
+            </div>
           </div>
         </div>
 
@@ -649,6 +679,7 @@
         <div class="more-projects-content">
           <div class="project-list">
             <div class="project-card" style="margin-bottom: 0;">
+              <a href="msaplatform.html" target="_blank" class="full-card-link"></a>
               <div class="project-card-image">
                 <img src="images/msa_event_driven_v2.png" alt="MSA Platform Architecture">
               </div>
@@ -662,7 +693,10 @@
                 <div class="project-tags">
                   <span class="tag">Terraform</span><span class="tag">Kubernetes</span><span class="tag">Istio</span><span class="tag">Prometheus</span><span class="tag">Spring Boot</span>
                 </div>
-                <a href="msaplatform.html" class="project-link" target="_blank">MSA Platform project detail ↗</a>
+                <div class="project-links-row">
+                  <span class="project-link">MSA Platform project detail ↗</span>
+                  <a href="https://github.com/FISA-L2J/MSA-project" class="project-link" target="_blank">GitHub ↗</a>
+                </div>
               </div>
             </div>
           </div>
